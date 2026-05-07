@@ -46,7 +46,6 @@ export class CreateUserController {
             //retornar resposta para o usuario
             return created(createdUser)
         } catch (error) {
-            console.error('Error creating user:', error)
             console.error(error)
             return serverError()
         }
