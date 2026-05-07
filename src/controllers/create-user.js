@@ -1,6 +1,7 @@
 import { CreateUserUseCase } from '../use-cases/create-user.js'
 import validator from 'validator'
 import { badRequest, created, serverError } from './helpers.js'
+import { EmailAlreadyInUseError } from '../errors/user.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO HTTP, VALIDAR E CHAMAR O USER CASE
 
@@ -46,6 +47,9 @@ export class CreateUserController {
             //retornar resposta para o usuario
             return created(createdUser)
         } catch (error) {
+            if (error instanceof EmailAlreadyInUseError) {
+                return badRequest({ message: error.message })
+            }
             console.error(error)
             return serverError()
         }
