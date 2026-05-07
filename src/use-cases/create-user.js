@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
-import { PostgresCreateUserRepository } from '../db/postgres/repositories/postgres/create-user.js'
+import { PostgresCreateUserRepository } from '../repositories/postgres/create-user.js'
+
+//RESPONSAVEL POR RECEBER OS PARAMETROS DO CONTROLLER, FAZER AS REGRAS DE NEGOCIO E CHAMAR O REPOSITORY
 
 export class CreateUserUseCase {
     async execute(createUserParams) {

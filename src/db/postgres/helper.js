@@ -10,7 +10,7 @@ export const pool = new Pool({
     port: process.env.POSTGRES_PORT,
 })
 
-export const postgresHelper = {
+export const PostgresHelper = {
     query: async (text, params) => {
         const client = await pool.connect()
         const results = await client.query(text, params)
