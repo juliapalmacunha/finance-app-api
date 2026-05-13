@@ -1,7 +1,16 @@
 import { CreateUserUseCase } from '../use-cases/create-user.js'
-import validator from 'validator'
-import { badRequest, created, serverError } from './helpers.js'
+import {
+    badRequest,
+    created,
+    serverError,
+} from '../controllers/helpers/http.js'
 import { EmailAlreadyInUseError } from '../errors/user.js'
+import {
+    checkIfEmailIsValid,
+    checkIfPasswordIsValid,
+    emailAlreadyInUseResponse,
+    invalidPasswordResponse,
+} from './helpers/user.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO HTTP, VALIDAR E CHAMAR O USER CASE
 
@@ -27,17 +36,14 @@ export class CreateUserController {
             }
 
             //validando senha
-            const passwordIsNotValid = params.password.length < 6
-            if (passwordIsNotValid) {
-                return badRequest({
-                    message: 'Password must be at least 6 characters long',
-                })
+
+            if (!checkIfPasswordIsValid(params.password)) {
+                return invalidPasswordResponse()
             }
 
             //validando email
-            const emailIsValid = validator.isEmail(params.email)
-            if (!emailIsValid) {
-                return badRequest({ message: 'Invalid email format' })
+            if (!checkIfEmailIsValid(params.email)) {
+                return emailAlreadyInUseResponse()
             }
 
             //chamar o user case
