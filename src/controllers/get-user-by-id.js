@@ -1,4 +1,3 @@
-import { GetUserByIdUseCase } from '../use-cases/index.js'
 import { ok, serverError } from '../controllers/helpers/http.js'
 import {
     checkIfIdIsValid,
@@ -7,14 +6,19 @@ import {
 } from './helpers/user.js'
 
 export class GetUserByIdController {
+    constructor(getUserByIdUseCase) {
+        this.getUserByIdUseCase = getUserByIdUseCase
+    }
+
     async execute(httpRequest) {
         try {
             if (!checkIfIdIsValid(httpRequest.params.id)) {
                 return invalidIdResponse()
             }
 
-            const getUserByIdUseCase = new GetUserByIdUseCase()
-            const user = await getUserByIdUseCase.execute(httpRequest.params.id)
+            const user = await this.getUserByIdUseCase.execute(
+                httpRequest.params.id,
+            )
 
             if (!user) {
                 return userNotFoundResponse()

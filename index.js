@@ -6,6 +6,11 @@ import {
     CreateUserController,
     DeleteUserController,
 } from './src/controllers/index.js'
+import { GetUserByIdUseCase } from './src/use-cases/get-user-by-id.js'
+import { PostgresGetUserByIdRepository } from './src/repositories/postgres/get-user-by-id.js'
+import { PostgresGetUserByEmailRepository } from './src/repositories/postgres/get-user-by-email.js'
+import { PostgresCreateUserRepository } from './src/repositories/postgres/create-user.js'
+import { CreateUserUseCase } from './src/use-cases/create-user.js'
 
 const app = express()
 
@@ -13,14 +18,25 @@ app.use(express.json())
 
 //puxando informacoes do banco
 app.get('/api/users/:id', async (request, response) => {
-    const getUserByIdController = new GetUserByIdController()
+    const getUserByIdRepository = new PostgresGetUserByIdRepository()
+    const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
+    const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
+
     const { statusCode, body } = await getUserByIdController.execute(request)
     response.status(statusCode).send(body)
 })
 
 //enviando para o banco
 app.post('/api/users', async (request, response) => {
-    const createUserController = new CreateUserController()
+    const postgresGetUserByEmailRepository =
+        new PostgresGetUserByEmailRepository()
+    const postgresCreateUserRepository = new PostgresCreateUserRepository()
+    const createUserUseCase = new CreateUserUseCase(
+        postgresGetUserByEmailRepository,
+        postgresCreateUserRepository,
+    )
+    const createUserController = new CreateUserController(createUserUseCase)
+
     const { statusCode, body } = await createUserController.execute(request)
     response.status(statusCode).send(body)
 })
