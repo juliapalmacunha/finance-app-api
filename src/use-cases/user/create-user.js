@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
-import { EmailAlreadyInUseError } from '../errors/user.js'
+import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO CONTROLLER, FAZER AS REGRAS DE NEGOCIO E CHAMAR O REPOSITORY
 
