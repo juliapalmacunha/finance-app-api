@@ -1,4 +1,4 @@
-import { PostgresHelper } from '../../db/postgres/helper.js'
+import { PostgresHelper } from '../../../db/postgres/helper.js'
 
 //RESPONSAVEL POR FALAR COM O BANCO
 export class PostgresCreateUserRepository {
