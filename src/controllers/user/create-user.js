@@ -8,6 +8,7 @@ import {
     created,
     serverError,
     validateRequiredFields,
+    requiredFieldMissingResponse,
 } from '../helpers/index.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO HTTP, VALIDAR E CHAMAR O USER CASE
@@ -32,9 +33,7 @@ export class CreateUserController {
                 validateRequiredFields(params, requiredFields)
 
             if (!requiredFieldsValid) {
-                return badRequest({
-                    message: `The field ${missingField} is required.`,
-                })
+                return requiredFieldMissingResponse(missingField)
             }
 
             //validando senha
