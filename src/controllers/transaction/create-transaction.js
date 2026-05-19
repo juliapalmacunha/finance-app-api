@@ -1,5 +1,5 @@
-import { badRequest, created, serverError } from '../helpers/http'
-import { checkIfIdIsValid, invalidIdResponse } from '../helpers/user'
+import { badRequest, created, serverError } from '../helpers/http.js'
+import { checkIfIdIsValid, invalidIdResponse } from '../helpers/user.js'
 import validator from 'validator'
 
 export class CreateTransactionController {
@@ -12,17 +12,13 @@ export class CreateTransactionController {
             const params = httpRequest.body
 
             //antes de tudo verifica se todos os campos obrigatorios estão peenchidos
-            const requireFields = [
-                'id',
-                'user_id',
-                'name',
-                'date',
-                'amount',
-                'type',
-            ]
+            const requireFields = ['user_id', 'name', 'date', 'amount', 'type']
 
             for (const field of requireFields) {
-                if (!params[field]) {
+                if (
+                    !params[field] ||
+                    params[field].toString().trim().length === 0
+                ) {
                     return badRequest({
                         message: `Missing param: ${field}.`,
                     })
