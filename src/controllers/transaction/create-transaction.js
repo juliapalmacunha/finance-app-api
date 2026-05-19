@@ -1,13 +1,17 @@
 import {
     checkIfIdIsValid,
     invalidIdResponse,
-    badRequest,
     created,
     serverError,
     validateRequiredFields,
     requiredFieldMissingResponse,
 } from '../helpers/index.js'
-import validator from 'validator'
+import {
+    checkIfAmountIsValid,
+    checkIfTypeIsValid,
+    invalidAmountResponse,
+    invalidTypeResponse,
+} from '../helpers/transaction.js'
 
 export class CreateTransactionController {
     constructor(createTransactionUseCase) {
@@ -36,32 +40,19 @@ export class CreateTransactionController {
             }
 
             //verificar se amount tem duas casas decimais
-            const amountIsValid = validator.isCurrency(
-                params.amount.toString(),
-                {
-                    digits_after_decimal: [2],
-                    allow_negatives: false,
-                    decimal_separator: '.',
-                },
-            )
+            const amountIsValid = checkIfAmountIsValid(params.amount)
 
             if (!amountIsValid) {
-                return badRequest({
-                    message: 'The amount must be a valid currency.',
-                })
+                return invalidAmountResponse()
             }
 
             //validar se o type da transação é valido
             const type = params.type.trim().toUpperCase()
 
-            const typeIsValid = ['EARNING', 'EXPENSE', 'INVESTMENT'].includes(
-                type,
-            )
+            const typeIsValid = checkIfTypeIsValid(type)
 
             if (!typeIsValid) {
-                return badRequest({
-                    message: 'The type must be EARNING, EXPENSE or INVESTMENT.',
-                })
+                return invalidTypeResponse()
             }
 
             //executar a transacao de fato chamando o usecase
