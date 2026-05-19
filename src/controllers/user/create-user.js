@@ -7,6 +7,7 @@ import {
     badRequest,
     created,
     serverError,
+    validateRequiredFields,
 } from '../helpers/index.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO HTTP, VALIDAR E CHAMAR O USER CASE
@@ -27,16 +28,16 @@ export class CreateUserController {
                 'password',
             ]
 
-            for (const field of requiredFields) {
-                if (!params[field] || params[field].trim() === 0) {
-                    return badRequest({
-                        message: `Field ${field} is required and cannot be empty`,
-                    })
-                }
+            const { ok: requiredFieldsValid, missingField } =
+                validateRequiredFields(params, requiredFields)
+
+            if (!requiredFieldsValid) {
+                return badRequest({
+                    message: `The field ${missingField} is required.`,
+                })
             }
 
             //validando senha
-
             if (!checkIfPasswordIsValid(params.password)) {
                 return invalidPasswordResponse()
             }

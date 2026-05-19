@@ -10,7 +10,7 @@ export class PostgresCreateTransactionRepository {
             `,
             [
                 createTransactionParams.id,
-                createTransactionParams.userId,
+                createTransactionParams.user_id,
                 createTransactionParams.name,
                 createTransactionParams.date,
                 createTransactionParams.amount,
