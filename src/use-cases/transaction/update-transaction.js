@@ -3,7 +3,7 @@ export class UpdateTransactionUseCase {
         this.updateTransactionRepository = updateTransactionRepository
     }
 
-    async excecute(transactionId, params) {
+    async execute(transactionId, params) {
         const transaction = await this.updateTransactionRepository.execute(
             transactionId,
             params,
