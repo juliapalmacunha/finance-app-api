@@ -1,4 +1,4 @@
-import { UserNotFoundError } from '../../errors/user'
+import { UserNotFoundError } from '../../errors/user.js'
 import {
     checkIfIdIsValid,
     invalidIdResponse,
@@ -6,12 +6,12 @@ import {
     requiredFieldMissingResponse,
     serverError,
     userNotFoundResponse,
-} from '../helpers'
+} from '../helpers/index.js'
 
-export const GetTransactionsByUserIdController = {
+export class GetTransactionsByUserIdController {
     constructor(getTransactionsByUserIdUseCase) {
         this.getTransactionsByUserIdUseCase = getTransactionsByUserIdUseCase
-    },
+    }
 
     async execute(httpRequest) {
         try {
@@ -45,5 +45,5 @@ export const GetTransactionsByUserIdController = {
 
             return serverError()
         }
-    },
+    }
 }
