@@ -1,6 +1,6 @@
 import { userNotFoundResponse } from '../../controllers/helpers'
 
-export class GetTransactionByUserIdUseCase {
+export class GetTransactionsByUserIdUseCase {
     constructor(getTransactionsByUserIdRepository, getUserByIdRepository) {
         this.getTransactionsByUserIdRepository =
             getTransactionsByUserIdRepository
