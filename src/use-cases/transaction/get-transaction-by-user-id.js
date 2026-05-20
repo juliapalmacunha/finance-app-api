@@ -1,0 +1,24 @@
+import { userNotFoundResponse } from '../../controllers/helpers'
+
+export class GetTransactionByUserIdUseCase {
+    constructor(getTransactionsByUserIdRepository, getUserByIdRepository) {
+        this.getTransactionsByUserIdRepository =
+            getTransactionsByUserIdRepository
+        this.getUserByIdRepository = getUserByIdRepository
+    }
+
+    async execute(params) {
+        //validar se o usuario existe
+        const user = await this.getUserByIdRepository.execute(params.userId)
+
+        if (!user) {
+            throw new userNotFoundResponse()
+        }
+
+        //caso exista, chamar o repository
+        const transactions =
+            await this.getTransactionsByUserIdRepository.execute(params.userId)
+
+        return transactions
+    }
+}
