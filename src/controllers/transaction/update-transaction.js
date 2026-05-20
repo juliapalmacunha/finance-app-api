@@ -21,7 +21,7 @@ export class UpdateTransactionController {
 
     async execute(httpRequest) {
         try {
-            const transactionId = httpRequest.params.id
+            const transactionId = httpRequest.params.transactionId
 
             //validar se o id do usuario é valido existe
             const idIsValid = checkIfIdIsValid(transactionId)
