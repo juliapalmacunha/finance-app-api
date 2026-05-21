@@ -1,4 +1,4 @@
-import { UserNotFoundError } from '../../errors/user'
+import { UserNotFoundError } from '../../errors/user.js'
 import {
     serverError,
     userNotFoundResponse,
@@ -15,6 +15,7 @@ export class GetUserBalanceController {
     async execute(httpRequest) {
         try {
             const userId = httpRequest.params.userId
+            console.log(httpRequest.params)
 
             //verificar se o id é valido
             const idIsValid = checkIfIdIsValid(userId)
