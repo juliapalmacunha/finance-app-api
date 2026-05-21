@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS users(
 
 
 
-
-
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'transaction_type') THEN
@@ -18,8 +16,6 @@ BEGIN
     
     END IF;
 END$$;
-
-
 
 
 CREATE TABLE IF NOT EXISTS transactions(
