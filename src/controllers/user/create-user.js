@@ -1,15 +1,7 @@
 import { EmailAlreadyInUseError } from '../../errors/user.js'
-import {
-    checkIfEmailIsValid,
-    checkIfPasswordIsValid,
-    emailAlreadyInUseResponse,
-    invalidPasswordResponse,
-    badRequest,
-    created,
-    serverError,
-    validateRequiredFields,
-    requiredFieldMissingResponse,
-} from '../helpers/index.js'
+import { createUserSchema } from '../../schemas/index.js'
+import { badRequest, created, serverError } from '../helpers/index.js'
+import { ZodError } from 'zod'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO HTTP, VALIDAR E CHAMAR O USER CASE
 export class CreateUserController {
@@ -19,32 +11,12 @@ export class CreateUserController {
 
     async execute(httpRequest) {
         try {
+            //verificacoes automaticas de validacao usando zod
+
             const params = httpRequest.body
 
-            //validar requisição (campos obrigatorios, tamanho de senha e email)
-            const requiredFields = [
-                'first_name',
-                'last_name',
-                'email',
-                'password',
-            ]
-
-            const { ok: requiredFieldsValid, missingField } =
-                validateRequiredFields(params, requiredFields)
-
-            if (!requiredFieldsValid) {
-                return requiredFieldMissingResponse(missingField)
-            }
-
-            //validando senha
-            if (!checkIfPasswordIsValid(params.password)) {
-                return invalidPasswordResponse()
-            }
-
-            //validando email
-            if (!checkIfEmailIsValid(params.email)) {
-                return emailAlreadyInUseResponse()
-            }
+            //verifica se o que foi passado no body corresponde ao schema definido
+            await createUserSchema.parseAsync(params)
 
             //chamar o user case
             const createdUser = await this.createUserUseCase.execute(params)
@@ -52,6 +24,11 @@ export class CreateUserController {
             //retornar resposta para o usuario
             return created(createdUser)
         } catch (error) {
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
+            }
             if (error instanceof EmailAlreadyInUseError) {
                 return badRequest({ message: error.message })
             }
