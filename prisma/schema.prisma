@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//definir os itens que vao para o banco na parte de usuarios
+//fazendo a tabela usuario com prisma, utilizando
+//alguns metodos como unique que serve para nao deixar repetir o email, e o default uuid para gerar um id unico
+model User {
+  id String @id @default(uuid())
+  first_name String @db.VarChar(50)
+  last_name String @db.VarChar(50)
+  email String @unique @db.VarChar(100) 
+  password String @db.VarChar(100)
+}

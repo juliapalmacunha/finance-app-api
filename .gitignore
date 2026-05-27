@@ -7,3 +7,5 @@ node_modules
 # Postgres Volume
 .postgres-data
 
+
+/src/generated/prisma
