@@ -1,39 +1,41 @@
 {
-  "name": "finance-app-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npx prisma generate",
-    "prepare": "husky",
-    "migrations": "node src/db/postgres/migrations/exec.js",
-    "start:dev": "node --watch index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@commitlint/cli": "^20.5.2",
-    "@commitlint/config-conventional": "^20.5.0",
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.2.1",
-    "eslint-config-prettier": "^10.1.8",
-    "globals": "^17.5.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
-    "prettier": "^3.8.3"
-  },
-  "dependencies": {
-    "@prisma/client": "^6.19.3",
-    "bcrypt": "^6.0.0",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "pg": "^8.20.0",
-    "prisma": "^6.19.3",
-    "uuid": "^14.0.0",
-    "validator": "^13.15.35",
-    "zod": "^4.4.3"
-  }
+    "name": "finance-app-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "postinstall": "npx prisma generate",
+        "prepare": "husky",
+        "migrations": "node src/db/postgres/migrations/exec.js",
+        "start:dev": "node --watch index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@commitlint/cli": "^20.5.2",
+        "@commitlint/config-conventional": "^20.5.0",
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.2.1",
+        "eslint-config-prettier": "^10.1.8",
+        "globals": "^17.5.0",
+        "husky": "^9.1.7",
+        "jest": "^30.4.2",
+        "lint-staged": "^16.4.0",
+        "prettier": "^3.8.3"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.19.3",
+        "bcrypt": "^6.0.0",
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "pg": "^8.20.0",
+        "prisma": "^6.19.3",
+        "uuid": "^14.0.0",
+        "validator": "^13.15.35",
+        "zod": "^4.4.3"
+    }
 }

@@ -7,7 +7,12 @@ export default defineConfig([
     js.configs.recommended,
     prettier,
     {
-        files: ['**/*.{js,mjs,cjs}'],
-        languageOptions: { globals: globals.node },
+        files: ['**/*.{js,mjs,cjs,ts}'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+                ...globals.jest,
+            },
+        },
     },
 ])
