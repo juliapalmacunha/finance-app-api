@@ -31,7 +31,7 @@ describe('Create User Controller', () => {
         expect(result.body).not.toBeUndefined()
     })
 
-    it('should return 400 if first_name is missing', async () => {
+    it('should return 400 if first_name is not provided', async () => {
         //arrange
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
@@ -51,7 +51,7 @@ describe('Create User Controller', () => {
         expect(result.statusCode).toBe(400)
     })
 
-    it('should return 400 if last_name is missing', async () => {
+    it('should return 400 if last_name is not provided', async () => {
         //arrange
         const createUserUseCase = new CreateUserUseCaseStub()
         const createUserController = new CreateUserController(createUserUseCase)
@@ -61,6 +61,46 @@ describe('Create User Controller', () => {
                 first_name: 'teste',
                 email: 'teste@teste.com',
                 password: 'teste123',
+            },
+        }
+
+        //act
+        const result = await createUserController.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if email is not provided', async () => {
+        //arrange
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+
+        const httpRequest = {
+            body: {
+                first_name: 'teste',
+                last_name: 'teste',
+                password: 'teste123',
+            },
+        }
+
+        //act
+        const result = await createUserController.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if password is not provided', async () => {
+        //arrange
+        const createUserUseCase = new CreateUserUseCaseStub()
+        const createUserController = new CreateUserController(createUserUseCase)
+
+        const httpRequest = {
+            body: {
+                first_name: 'teste',
+                last_name: 'teste',
+                email: 'teste@teste.com',
             },
         }
 
