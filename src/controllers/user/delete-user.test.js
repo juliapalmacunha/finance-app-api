@@ -1,0 +1,44 @@
+import { faker } from '@faker-js/faker'
+import { DeleteUserController } from './delete-user'
+
+describe('Delete User Controller', () => {
+    // 1. Classe criada e fechada corretamente
+    class DeleteUserUseCaseStub {
+        execute(userId) {
+            return {
+                id: userId || faker.string.uuid(), // Usa o ID que recebeu ou gera um
+                first_name: faker.person.firstName(),
+                last_name: faker.person.lastName(),
+                email: faker.internet.email(),
+                password: faker.internet.password({ length: 7 }),
+            }
+        }
+    }
+
+    const makeSut = () => {
+        const deleteUserUseCase = new DeleteUserUseCaseStub()
+        const sut = new DeleteUserController(deleteUserUseCase)
+
+        return {
+            sut,
+            deleteUserUseCase,
+        }
+    }
+
+    const httpRequest = {
+        params: {
+            userId: faker.string.uuid(),
+        },
+    }
+
+    it('should return 200 when deleting a user successfully', async () => {
+        //arrange
+        const { sut } = makeSut()
+
+        //act
+        const result = await sut.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(200)
+    })
+})
