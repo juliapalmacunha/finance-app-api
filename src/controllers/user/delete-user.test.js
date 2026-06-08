@@ -60,7 +60,7 @@ describe('Delete User Controller', () => {
     it('should return 404 if user is not found', async () => {
         //arrange
         const { sut, deleteUserUseCase } = makeSut()
-        jest.spyOn(deleteUserUseCase, 'execute').mockReturnValueOnce(null)
+        jest.spyOn(deleteUserUseCase, 'execute').mockResolvedValueOnce(null)
 
         //act
         const result = await sut.execute(httpRequest)
@@ -72,8 +72,8 @@ describe('Delete User Controller', () => {
     it('should return 500 if use case throws an error', async () => {
         //arrange
         const { sut, deleteUserUseCase } = makeSut()
-        jest.spyOn(deleteUserUseCase, 'execute').mockImplementationOnce(() => {
-            throw new Error()
+        jest.spyOn(deleteUserUseCase, 'execute').mockRejectedValueOnce(() => {
+            new Error()
         })
 
         //act
