@@ -25,7 +25,7 @@ describe('Create Transaction Controller', () => {
         },
     }
 
-    it('should return 201 if transaction is created successfully', async () => {
+    it('should return 201 if transaction is created successfully (expense)', async () => {
         //arrange
         const { sut } = makeSut()
         //act
@@ -118,6 +118,21 @@ describe('Create Transaction Controller', () => {
             body: {
                 ...httpRequest.body,
                 date: 'invalid-date',
+            },
+        })
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if type is not EXPENSE, EARNING OR INVESTMENT', async () => {
+        //arrange
+        const { sut } = makeSut()
+        //act
+        const result = await sut.execute({
+            ...httpRequest,
+            body: {
+                ...httpRequest.body,
+                type: 'invalid-type',
             },
         })
         //assert
