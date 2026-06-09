@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { UpdateTransactionController } from './update-transaction'
+import { UpdateTransactionController } from './update-transaction.js'
 
 describe('Update Transaction Controller', () => {
     class UpdateTransactionUseCaseStub {
@@ -115,5 +115,18 @@ describe('Update Transaction Controller', () => {
         const result = await sut.execute(httpRequest)
         //assert
         expect(result.statusCode).toBe(500)
+    })
+
+    it('should call UpdateTransactionUseCase with correct params', async () => {
+        //arrange
+        const { sut, updateTransactionUseCase } = makeSut()
+        const executeSpy = jest.spyOn(updateTransactionUseCase, 'execute')
+        //act
+        await sut.execute(httpRequest)
+        //assert
+        expect(executeSpy).toHaveBeenCalledWith(
+            httpRequest.params.transactionId,
+            httpRequest.body,
+        )
     })
 })
