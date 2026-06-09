@@ -161,4 +161,19 @@ describe('Create Transaction Controller', () => {
         //assert
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if amount is not a valid number', async () => {
+        //arrange
+        const { sut } = makeSut()
+        //act
+        const result = await sut.execute({
+            ...httpRequest,
+            body: {
+                ...httpRequest.body,
+                amount: 'invalid-amount',
+            },
+        })
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
 })
