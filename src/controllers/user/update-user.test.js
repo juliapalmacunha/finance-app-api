@@ -122,7 +122,7 @@ describe('UpdateUserController', () => {
         expect(result.statusCode).toBe(500)
     })
 
-    it('should return 400 if UpdateUserController throws with EmailAlreadyInUseError', async () => {
+    it('should return 400 if UpdateUserUseCase throws with EmailAlreadyInUseError', async () => {
         //arrange
         const { sut, updateUserUseCase } = makeSut()
         jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(() => {
