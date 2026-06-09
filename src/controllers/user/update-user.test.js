@@ -55,4 +55,21 @@ describe('UpdateUserController', () => {
         //assert
         expect(result.statusCode).toBe(400)
     })
+
+    it('should return 400 if password is not valid', async () => {
+        //arrange
+        const { sut } = makeSut()
+
+        //act
+        const result = await sut.execute({
+            ...httpRequest,
+            body: {
+                ...httpRequest.body,
+                password: faker.internet.password({ length: 5 }),
+            },
+        })
+
+        //assert
+        expect(result.statusCode).toBe(400)
+    })
 })
