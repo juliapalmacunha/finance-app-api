@@ -29,7 +29,6 @@ describe('GetUserByIdController', () => {
         const result = await sut.execute({
             params: { id: faker.string.uuid() },
         })
-        console.log(result)
 
         //assert
         expect(result.statusCode).toBe(200)
