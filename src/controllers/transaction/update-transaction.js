@@ -1,4 +1,5 @@
 import { UserNotFoundError } from '../../errors/user.js'
+import { ZodError } from 'zod'
 import {
     badRequest,
     checkIfIdIsValid,
@@ -7,12 +8,7 @@ import {
     serverError,
     userNotFoundResponse,
 } from '../helpers/index.js'
-import {
-    checkIfAmountIsValid,
-    checkIfTypeIsValid,
-    invalidAmountResponse,
-    invalidTypeResponse,
-} from '../helpers/transaction.js'
+import { updateTransactionSchema } from '../../schemas/transaction.js'
 
 export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
@@ -33,44 +29,22 @@ export class UpdateTransactionController {
             const params = httpRequest.body
 
             //validar se algum campo nao permitido foi passado
-            const allowedFields = ['name', 'date', 'amount', 'type']
+            await updateTransactionSchema.parseAsync(params)
 
-            const someFieldIsNotAllowed = Object.keys(params).some(
-                (field) => !allowedFields.includes(field),
-            )
+            const updateTransaction =
+                await this.updateTransactionUseCase.execute(
+                    transactionId,
+                    params,
+                )
 
-            if (someFieldIsNotAllowed) {
-                return badRequest({
-                    message: 'Some provided fields are not allowed ',
-                })
-            }
-
-            //validar cada campo passado
-
-            const amount = params.amount
-            if (amount) {
-                const amountIsValid = checkIfAmountIsValid(amount)
-                if (!amountIsValid) {
-                    return invalidAmountResponse()
-                }
-            }
-
-            const type = params.type
-            if (type) {
-                const typeIsValid = checkIfTypeIsValid(type)
-                if (!typeIsValid) {
-                    return invalidTypeResponse()
-                }
-            }
-
-            const transaction = await this.updateTransactionUseCase.execute(
-                transactionId,
-                params,
-            )
-
-            return ok(transaction)
+            return ok(updateTransaction)
         } catch (error) {
             console.error(error)
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
+            }
             if (error instanceof UserNotFoundError) {
                 return userNotFoundResponse()
             }

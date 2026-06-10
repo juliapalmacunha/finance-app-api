@@ -49,3 +49,16 @@ export const createTransactionSchema = z.object({
             }),
         ),
 })
+
+//o que essa linha representa:
+//partial torna todos os campos de cima opcionais
+//o strict diz: se o usuario passar algum campo que nao seja um que ta aqui ele vai impedir
+//omit ele remove certas propriedades, vai tirar a propriedade userid porque ela nao deve ser atualizada
+export const updateTransactionSchema = createTransactionSchema
+    .omit({
+        user_id: true,
+    })
+    .partial()
+    .strict({
+        message: 'Some provide field is not allowed',
+    })
