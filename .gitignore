@@ -7,5 +7,8 @@ node_modules
 # Postgres Volume
 .postgres-data
 
+# Tests
+coverage
+
 
 /src/generated/prisma
