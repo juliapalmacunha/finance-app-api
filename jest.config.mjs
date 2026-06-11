@@ -2,6 +2,9 @@
 const config = {
   coverageDirectory: "coverage",
   coverageProvider: "v8",
+  collectCoverageFrom: [
+    "src/**/*.js",
+  ],
 
   // 1. Evita o erro de permissão da pasta do Docker
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data/'],
