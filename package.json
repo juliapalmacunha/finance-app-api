@@ -7,6 +7,7 @@
     "scripts": {
         "test": "jest --passWithNoTests --silent",
         "test:watch": "jest --watch --silent",
+        "test:coverage": "jest --passWithNoTests --silent --coverage",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
         "migrations": "node src/db/postgres/migrations/exec.js",
