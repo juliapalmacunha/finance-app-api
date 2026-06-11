@@ -134,6 +134,39 @@ describe('UpdateUserController', () => {
         expect(result.statusCode).toBe(500)
     })
 
+    it('should return 400 if id is not valid', async () => {
+        // arrange
+        const { sut } = makeSut()
+
+        const httpRequestWithInvalidId = {
+            ...httpRequest,
+            params: {
+                userId: 'invalid-id',
+            },
+        }
+
+        // act
+        const result = await sut.execute(httpRequestWithInvalidId)
+
+        // assert
+        expect(result.statusCode).toBe(400)
+    })
+
+    it('should return 400 if email is already in use', async () => {
+        // arrange
+        const { sut, updateUserUseCase } = makeSut()
+
+        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(
+            new EmailAlreadyInUseError(),
+        )
+
+        // act
+        const result = await sut.execute(httpRequest)
+
+        // assert
+        expect(result.statusCode).toBe(400)
+    })
+
     it('should call UpdateUserUseCase with correct params', async () => {
         //arrange
         const { sut, updateUserUseCase } = makeSut()
