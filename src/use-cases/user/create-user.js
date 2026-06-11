@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcrypt'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO CONTROLLER, FAZER AS REGRAS DE NEGOCIO E CHAMAR O REPOSITORY
@@ -8,9 +7,11 @@ export class CreateUserUseCase {
     constructor(
         postgresGetUserByEmailRepository,
         postgresCreateUserRepository,
+        bcryptAdapter,
     ) {
         this.postgresGetUserByEmailRepository = postgresGetUserByEmailRepository
         this.postgresCreateUserRepository = postgresCreateUserRepository
+        this.passwordHasherAdapter = bcryptAdapter
     }
 
     async execute(createUserParams) {
@@ -28,7 +29,9 @@ export class CreateUserUseCase {
         const userId = uuidv4()
 
         //criptografar a senha do user
-        const hashedPassword = await bcrypt.hash(createUserParams.password, 10)
+        const hashedPassword = await this.passwordHasherAdapter.execute(
+            createUserParams.password,
+        )
 
         //vai inserir o user no banco de dados
         const user = {
