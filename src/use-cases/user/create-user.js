@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 //RESPONSAVEL POR RECEBER OS PARAMETROS DO CONTROLLER, FAZER AS REGRAS DE NEGOCIO E CHAMAR O REPOSITORY
@@ -8,10 +7,12 @@ export class CreateUserUseCase {
         postgresGetUserByEmailRepository,
         postgresCreateUserRepository,
         bcryptAdapter,
+        idGeneratorAdapter,
     ) {
         this.postgresGetUserByEmailRepository = postgresGetUserByEmailRepository
         this.postgresCreateUserRepository = postgresCreateUserRepository
         this.passwordHasherAdapter = bcryptAdapter
+        this.idGeneratorAdapter = idGeneratorAdapter
     }
 
     async execute(createUserParams) {
@@ -26,7 +27,7 @@ export class CreateUserUseCase {
         }
 
         //gerar id do user
-        const userId = uuidv4()
+        const userId = this.idGeneratorAdapter.execute()
 
         //criptografar a senha do user
         const hashedPassword = await this.passwordHasherAdapter.execute(
