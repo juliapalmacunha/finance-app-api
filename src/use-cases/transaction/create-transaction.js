@@ -1,11 +1,14 @@
 import { UserNotFoundError } from '../../errors/user.js'
-import { v4 as uuidv4 } from 'uuid'
-
 export class CreateTransactionUseCase {
-    constructor(postgresCreateTransactionRepository, GetUserByIdRepository) {
+    constructor(
+        postgresCreateTransactionRepository,
+        getUserByIdRepository,
+        idGeneratorAdapter,
+    ) {
         this.postgresCreateTransactionRepository =
             postgresCreateTransactionRepository
-        this.GetUserByIdRepository = GetUserByIdRepository
+        this.getUserByIdRepository = getUserByIdRepository
+        this.idGeneratorAdapter = idGeneratorAdapter
     }
 
     async execute(createTransactionParams) {
@@ -13,7 +16,7 @@ export class CreateTransactionUseCase {
         const userId = createTransactionParams.user_id
 
         //puxa a funcao que acha o user pelo id enviando o id atraves do parametro
-        const user = await this.GetUserByIdRepository.execute(userId)
+        const user = await this.getUserByIdRepository.execute(userId)
 
         //caso o user nao existe, mostra um erro customizado
         if (!user) {
@@ -21,7 +24,7 @@ export class CreateTransactionUseCase {
         }
 
         //cria um id para a transacao
-        const transactionId = uuidv4()
+        const transactionId = await this.idGeneratorAdapter.execute()
 
         //efetua de fato a trasacao enviando o id dela criado
         const transaction =
