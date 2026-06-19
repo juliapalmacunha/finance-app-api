@@ -4,14 +4,14 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 export class CreateUserUseCase {
     constructor(
-        postgresGetUserByEmailRepository,
-        postgresCreateUserRepository,
-        bcryptAdapter,
+        getUserByEmailRepository,
+        createUserRepository,
+        passwordHasherAdapter,
         idGeneratorAdapter,
     ) {
-        this.postgresGetUserByEmailRepository = postgresGetUserByEmailRepository
-        this.postgresCreateUserRepository = postgresCreateUserRepository
-        this.passwordHasherAdapter = bcryptAdapter
+        this.postgresGetUserByEmailRepository = getUserByEmailRepository
+        this.postgresCreateUserRepository = createUserRepository
+        this.passwordHasherAdapter = passwordHasherAdapter
         this.idGeneratorAdapter = idGeneratorAdapter
     }
 
