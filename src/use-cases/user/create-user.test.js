@@ -120,4 +120,18 @@ describe('Create User Use Case', () => {
             password: 'hashed-password',
         })
     })
+
+    it('should throw if GetUserByEmailRepository throws ', async () => {
+        //arrange
+        const { sut, getUserByEmailRepository } = makeSut()
+
+        jest.spyOn(getUserByEmailRepository, 'execute').mockRejectedValueOnce(
+            new Error(),
+        )
+
+        const promise = sut.execute(user)
+
+        //act
+        await expect(promise).rejects.toThrow()
+    })
 })
