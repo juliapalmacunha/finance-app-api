@@ -27,7 +27,7 @@ export class CreateUserUseCase {
         }
 
         //gerar id do user
-        const userId = this.idGeneratorAdapter.execute()
+        const userId = await this.idGeneratorAdapter.execute()
 
         //criptografar a senha do user
         const hashedPassword = await this.passwordHasherAdapter.execute(
