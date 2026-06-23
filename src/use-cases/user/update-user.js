@@ -2,12 +2,12 @@ import { EmailAlreadyInUseError } from '../../errors/user.js'
 
 export class UpdateUserUseCase {
     constructor(
-        postgresGetUserByEmailRepository,
-        postgresUpdateUserRepository,
+        getUserByEmailRepository,
+        updateUserRepository,
         passwordHasherAdapter,
     ) {
-        this.postgresGetUserByEmailRepository = postgresGetUserByEmailRepository
-        this.postgresUpdateUserRepository = postgresUpdateUserRepository
+        this.getUserByEmailRepository = getUserByEmailRepository
+        this.updateUserRepository = updateUserRepository
         this.passwordHasherAdapter = passwordHasherAdapter
     }
 
@@ -16,7 +16,7 @@ export class UpdateUserUseCase {
         if (updateUserParams.email) {
             //chamar o repositório para verificar se o email já existe
             const userWithProvidedEmail =
-                await this.postgresGetUserByEmailRepository.execute(
+                await this.getUserByEmailRepository.execute(
                     updateUserParams.email,
                 )
 
@@ -40,10 +40,7 @@ export class UpdateUserUseCase {
         }
 
         //chamar o repositório para atualizar o usuário no banco de dados
-        const updateUser = await this.postgresUpdateUserRepository.execute(
-            userId,
-            user,
-        )
+        const updateUser = await this.updateUserRepository.execute(userId, user)
         return updateUser
     }
 }
