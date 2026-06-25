@@ -1,23 +1,11 @@
-import { faker } from '@faker-js/faker'
 import { CreateTransactionUseCase } from './create-transaction'
 import { UserNotFoundError } from '../../errors/user'
+import { transaction, user } from '../../tests/index.js'
 
 describe('CreateTransactionUseCase', () => {
-    const transactionParams = {
-        user_id: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: 'EXPENSE',
-        amount: Number(faker.finance.amount()),
-    }
-
-    const user = {
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-            length: 7,
-        }),
+    const createTransaction = {
+        ...transaction,
+        id: undefined,
     }
 
     class CreateTransactionRepositoryStub {
@@ -27,8 +15,8 @@ describe('CreateTransactionUseCase', () => {
     }
 
     class GetUserByIdRepositoryStub {
-        async execute(userId) {
-            return { ...user, id: userId }
+        async execute() {
+            return user
         }
     }
 
@@ -62,11 +50,11 @@ describe('CreateTransactionUseCase', () => {
         const { sut } = makeSut()
 
         //act
-        const result = await sut.execute(transactionParams)
+        const result = await sut.execute(createTransaction)
 
         //assert
         expect(result).toEqual({
-            ...transactionParams,
+            ...createTransaction,
             id: 'transaction-id',
         })
     })
@@ -77,10 +65,10 @@ describe('CreateTransactionUseCase', () => {
         const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
 
         //act
-        await sut.execute(transactionParams)
+        await sut.execute(createTransaction)
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(transactionParams.user_id)
+        expect(executeSpy).toHaveBeenCalledWith(createTransaction.user_id)
     })
 
     it('should call idGeneratorAdapter', async () => {
@@ -89,7 +77,7 @@ describe('CreateTransactionUseCase', () => {
         const executeSpy = jest.spyOn(idGeneratorAdapter, 'execute')
 
         //act
-        await sut.execute(transactionParams)
+        await sut.execute(createTransaction)
 
         //assert
         expect(executeSpy).toHaveBeenCalled()
@@ -102,11 +90,11 @@ describe('CreateTransactionUseCase', () => {
         const transactionId = 'transaction-id'
 
         //act
-        await sut.execute(transactionParams)
+        await sut.execute(createTransaction)
 
         //assert
         expect(executeSpy).toHaveBeenCalledWith({
-            ...transactionParams,
+            ...createTransaction,
             id: transactionId,
         })
     })
@@ -118,13 +106,13 @@ describe('CreateTransactionUseCase', () => {
 
         //act
         const promise = sut.execute({
-            ...transactionParams,
-            user_id: transactionParams.user_id,
+            ...createTransaction,
+            user_id: createTransaction.user_id,
         })
 
         //assert
         await expect(promise).rejects.toThrow(
-            new UserNotFoundError(transactionParams.user_id),
+            new UserNotFoundError(createTransaction.user_id),
         )
     })
 
@@ -137,7 +125,7 @@ describe('CreateTransactionUseCase', () => {
         ).mockRejectedValueOnce(new Error())
 
         //act
-        const result = sut.execute(transactionParams)
+        const result = sut.execute(createTransaction)
 
         //assert
         await expect(result).rejects.toThrow()
@@ -151,7 +139,7 @@ describe('CreateTransactionUseCase', () => {
         )
 
         //act
-        const result = sut.execute(transactionParams)
+        const result = sut.execute(createTransaction)
 
         //assert
         await expect(result).rejects.toThrow()
@@ -165,7 +153,7 @@ describe('CreateTransactionUseCase', () => {
         })
 
         //act
-        const result = sut.execute(transactionParams)
+        const result = sut.execute(createTransaction)
 
         //assert
         await expect(result).rejects.toThrow()
