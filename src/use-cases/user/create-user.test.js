@@ -1,6 +1,6 @@
-import { faker } from '@faker-js/faker'
 import { CreateUserUseCase } from './create-user'
 import { EmailAlreadyInUseError } from '../../errors/user.js'
+import { user } from '../../tests/index.js'
 
 describe('Create User Use Case', () => {
     class GetUserByEmailRepositoryStub {
@@ -27,13 +27,9 @@ describe('Create User Use Case', () => {
         }
     }
 
-    const user = {
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({
-            length: 7,
-        }),
+    const createUser = {
+        ...user,
+        id: undefined,
     }
 
     const getUserByEmailRepository = new GetUserByEmailRepositoryStub()
@@ -62,7 +58,7 @@ describe('Create User Use Case', () => {
         //arrange
         const { sut } = makeSut()
         //act
-        const result = await sut.execute(user)
+        const result = await sut.execute(createUser)
 
         //assert
         expect(result).toBeTruthy()
@@ -76,7 +72,9 @@ describe('Create User Use Case', () => {
             user,
         )
         //act
-        await expect(sut.execute(user)).rejects.toThrow(EmailAlreadyInUseError)
+        await expect(sut.execute(createUser)).rejects.toThrow(
+            EmailAlreadyInUseError,
+        )
     })
 
     it('should call passwordHasherAdapter to generate a cryptograph password', async () => {
@@ -89,12 +87,12 @@ describe('Create User Use Case', () => {
         )
 
         //act
-        await sut.execute(user)
+        await sut.execute(createUser)
 
         //assert
-        expect(passwordHasherSpy).toHaveBeenCalledWith(user.password)
+        expect(passwordHasherSpy).toHaveBeenCalledWith(createUser.password)
         expect(createUserRepositorySpy).toHaveBeenCalledWith({
-            ...user,
+            ...createUser,
             id: 'generated-id',
             password: 'hashed-password',
         })
@@ -110,12 +108,12 @@ describe('Create User Use Case', () => {
         )
 
         //act
-        await sut.execute(user)
+        await sut.execute(createUser)
 
         //assert
         expect(idGeneratorSpy).toHaveBeenCalled()
         expect(createUserRepositorySpy).toHaveBeenCalledWith({
-            ...user,
+            ...createUser,
             id: 'generated-id',
             password: 'hashed-password',
         })
@@ -129,7 +127,7 @@ describe('Create User Use Case', () => {
             new Error(),
         )
 
-        const promise = sut.execute(user)
+        const promise = sut.execute(createUser)
 
         //act
         await expect(promise).rejects.toThrow()
@@ -143,7 +141,7 @@ describe('Create User Use Case', () => {
             throw new Error()
         })
 
-        const promise = sut.execute(user)
+        const promise = sut.execute(createUser)
 
         //act
         await expect(promise).rejects.toThrow()
@@ -159,7 +157,7 @@ describe('Create User Use Case', () => {
             },
         )
 
-        const promise = sut.execute(user)
+        const promise = sut.execute(createUser)
 
         //act
         await expect(promise).rejects.toThrow()
@@ -173,7 +171,7 @@ describe('Create User Use Case', () => {
             new Error(),
         )
 
-        const promise = sut.execute(user)
+        const promise = sut.execute(createUser)
 
         //act
         await expect(promise).rejects.toThrow()
