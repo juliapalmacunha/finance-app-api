@@ -1,17 +1,12 @@
 import { faker } from '@faker-js/faker'
 import { DeleteUserController } from './delete-user'
+import { user } from '../../tests'
 
 describe('Delete User Controller', () => {
     // 1. Classe criada e fechada corretamente
     class DeleteUserUseCaseStub {
-        execute(userId) {
-            return {
-                id: userId || faker.string.uuid(), // Usa o ID que recebeu ou gera um
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password({ length: 7 }),
-            }
+        execute() {
+            return user
         }
     }
 
