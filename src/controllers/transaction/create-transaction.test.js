@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker'
 import { CreateTransactionController } from './create-transaction.js'
+import { transaction } from '../../tests/index.js'
 
 describe('Create Transaction Controller', () => {
     class CreateTransactionUseCaseStub {
-        async execute(transaction) {
+        async execute() {
             return transaction
         }
     }
