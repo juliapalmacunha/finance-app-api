@@ -6,11 +6,11 @@
     "type": "module",
     "scripts": {
         "test": "jest --passWithNoTests --silent",
-        "test:watch": "jest --watch --silent",
+        "test:watch": "jest --watch --silent --watchPathIgnorePatterns .postgres-data",
         "test:coverage": "jest --passWithNoTests --silent --coverage",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
-        "migrations": "node src/db/postgres/migrations/exec.js",
+        "migrations": "npx prisma migrate deploy",
         "start:dev": "node --watch index.js"
     },
     "keywords": [],
