@@ -14,14 +14,15 @@ services:
     #criando um container somente para os testes
     #pois os testes nao podem usufruir do mesmo banco de dados da aplicação
 
+  # Banco de Dados de Testes (Isolado e sem persistência)
   postgres-test:
     image: postgres:17
     container_name: finance-app-postgres-test
     environment:
       POSTGRES_PASSWORD: julia123
       POSTGRES_USER: postgres
-      POSTGRES_DB: financeapp
+      POSTGRES_DB: financeapp_test  # Nome diferente para não confundir
     ports:
-      - '5433:5433'
-    volumes:
-      - ./.postgres-data:/var/lib/postgresql/data  
+      - '5433:5432'                 # Maquina real (5433) -> Container (5432)
+    # Sem a linha de volumes aqui!
+   
