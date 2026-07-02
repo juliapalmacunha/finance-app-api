@@ -6,6 +6,9 @@ const config = {
     "src/**/*.js",
   ],
 
+  //o rootdir pega a raiz do projeto e depois entra no arquivo criado
+  globalSetup: "<rootDir>/jest.global-setup.js",
+
   // 1. Evita o erro de permissão da pasta do Docker
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data/'],
   modulePathIgnorePatterns: ['<rootDir>/.postgres-data/'],
