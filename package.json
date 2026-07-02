@@ -5,8 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- jest --passWithNoTests --silent",
-        "test:watch": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- jest --watch --silent --watchPathIgnorePatterns=\".postgres-data\"",
+        "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
+        "test:watch": "dotenv -e .env.test -- jest --watch --silent --watchPathIgnorePatterns=\".postgres-data\"",
         "test:coverage": "jest --passWithNoTests --silent --coverage",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
