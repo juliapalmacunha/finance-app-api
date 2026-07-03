@@ -8,6 +8,8 @@ const config = {
 
   //o rootdir pega a raiz do projeto e depois entra no arquivo criado
   globalSetup: "<rootDir>/jest.global-setup.js",
+  //ele limpa o banco de dados antes de cada teste            
+  setupFilesAfterEnv: ["<rootDir>/jest.setup-after-env.js"],
 
   // 1. Evita o erro de permissão da pasta do Docker
   watchPathIgnorePatterns: ['<rootDir>/.postgres-data/'],
