@@ -1,12 +1,12 @@
 import { prisma } from '../../../../prisma/prisma.js'
-import { user as fakerUser } from '../../../tests'
+import { user as fakeUser } from '../../../tests'
 import { PostgresGetUserByEmailRepository } from './get-user-by-email.js'
 
 describe('GetUserByEmailRepository', () => {
     it('should get user by email on db', async () => {
         // arrange
         const sut = new PostgresGetUserByEmailRepository()
-        const user = await prisma.user.create({ data: fakerUser })
+        const user = await prisma.user.create({ data: fakeUser })
 
         // act
         const result = await sut.execute(user.email)
@@ -21,12 +21,12 @@ describe('GetUserByEmailRepository', () => {
         const prismaSpy = jest.spyOn(prisma.user, 'findUnique')
 
         // act
-        await sut.execute(fakerUser.email)
+        await sut.execute(fakeUser.email)
 
         // assert
         expect(prismaSpy).toHaveBeenCalledWith({
             where: {
-                email: fakerUser.email,
+                email: fakeUser.email,
             },
         })
     })
