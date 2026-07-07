@@ -2,7 +2,7 @@ import { PostgresGetUserByIdRepository } from './get-user-by-id.js'
 import { prisma } from '../../../../prisma/prisma.js'
 import { user as fakeUser } from '../../../tests'
 
-describe('GetUserByIdRepository', () => {
+describe('PostgresGetUserByIdRepository', () => {
     it('should get user by id on db', async () => {
         //arrange
         const sut = new PostgresGetUserByIdRepository()

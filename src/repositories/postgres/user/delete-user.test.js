@@ -2,7 +2,7 @@ import { PostgresDeleteUserRepository } from './delete-user'
 import { user } from '../../../tests'
 import { prisma } from '../../../../prisma/prisma'
 
-describe('DeleteUserRepository', () => {
+describe('PostgresDeleteUserRepository', () => {
     it('should delete a user on db', async () => {
         await prisma.user.create({ data: user })
         //arrange

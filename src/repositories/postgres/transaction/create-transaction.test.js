@@ -4,7 +4,7 @@ import { prisma } from '../../../../prisma/prisma'
 import { user as fakeUser } from '../../../tests'
 import dayjs from 'dayjs'
 
-describe('CreateTransactionRepository', () => {
+describe('PostgresCreateTransactionRepository', () => {
     it('should create a transaction on db', async () => {
         //arrange
         const user = await prisma.user.create({ data: fakeUser })

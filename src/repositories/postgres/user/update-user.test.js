@@ -3,7 +3,7 @@ import { prisma } from '../../../../prisma/prisma.js'
 import { user as fakeUser } from '../../../tests'
 import { faker } from '@faker-js/faker'
 
-describe('UpdateUserRepository', () => {
+describe('PostgresUpdateUserRepository', () => {
     const updateUserParams = {
         id: faker.string.uuid(),
         first_name: faker.person.firstName(),
