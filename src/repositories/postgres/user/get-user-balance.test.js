@@ -2,6 +2,7 @@ import { user as fakeUser } from '../../../tests'
 import { prisma } from '../../../../prisma/prisma'
 import { PostgresGetUserBalanceRepository } from './get-user-balance'
 import { faker } from '@faker-js/faker'
+import { TransactionType } from '@prisma/client'
 
 describe('GetUserBalanceRepository', () => {
     const sut = new PostgresGetUserBalanceRepository()
@@ -14,49 +15,49 @@ describe('GetUserBalanceRepository', () => {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'EARNING',
+                    type: TransactionType.EARNING,
                     amount: 5000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'EARNING',
+                    type: TransactionType.EARNING,
                     amount: 5000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'EARNING',
+                    type: TransactionType.EARNING,
                     amount: 5000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'EXPENSE',
+                    type: TransactionType.EXPENSE,
                     amount: 1000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'EXPENSE',
+                    type: TransactionType.EXPENSE,
                     amount: 1000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'INVESTMENT',
+                    type: TransactionType.INVESTMENT,
                     amount: 3000,
                 },
                 {
                     name: faker.string.sample(3),
                     date: faker.date.recent(),
                     user_id: user.id,
-                    type: 'INVESTMENT',
+                    type: TransactionType.INVESTMENT,
                     amount: 3000,
                 },
             ],
@@ -79,7 +80,7 @@ describe('GetUserBalanceRepository', () => {
         expect(prisma.transaction.aggregate).toHaveBeenNthCalledWith(1, {
             where: {
                 user_id: fakeUser.id,
-                type: 'EXPENSE',
+                type: TransactionType.EXPENSE,
             },
             _sum: {
                 amount: true,
@@ -88,7 +89,7 @@ describe('GetUserBalanceRepository', () => {
         expect(prisma.transaction.aggregate).toHaveBeenNthCalledWith(2, {
             where: {
                 user_id: fakeUser.id,
-                type: 'EARNING',
+                type: TransactionType.EARNING,
             },
             _sum: {
                 amount: true,
@@ -97,7 +98,7 @@ describe('GetUserBalanceRepository', () => {
         expect(prisma.transaction.aggregate).toHaveBeenNthCalledWith(3, {
             where: {
                 user_id: fakeUser.id,
-                type: 'INVESTMENT',
+                type: TransactionType.INVESTMENT,
             },
             _sum: {
                 amount: true,
