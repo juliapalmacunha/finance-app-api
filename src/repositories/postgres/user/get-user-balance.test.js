@@ -4,10 +4,9 @@ import { PostgresGetUserBalanceRepository } from './get-user-balance'
 import { faker } from '@faker-js/faker'
 import { TransactionType } from '@prisma/client'
 
-describe('GetUserBalanceRepository', () => {
-    const sut = new PostgresGetUserBalanceRepository()
-
+describe('PostgresGetUserBalanceRepository', () => {
     it('should get user balance on db', async () => {
+        const sut = new PostgresGetUserBalanceRepository()
         const user = await prisma.user.create({ data: fakeUser })
         await prisma.transaction.createMany({
             data: [
@@ -72,6 +71,7 @@ describe('GetUserBalanceRepository', () => {
     })
 
     it('should call prisma transaction aggregate three times with correct parameters', async () => {
+        const sut = new PostgresGetUserBalanceRepository()
         jest.spyOn(prisma.transaction, 'aggregate')
 
         await sut.execute(fakeUser.id)
