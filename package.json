@@ -5,9 +5,9 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
-        "test:watch": "dotenv -e .env.test -- jest --watch --silent --watchPathIgnorePatterns=\".postgres-data\"",
-        "test:coverage": "jest --passWithNoTests --silent --coverage",
+        "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
+        "test:watch": "npm run test -- --watch --watchPathIgnorePatterns=\".postgres-data\"",
+        "test:coverage": "npm run test -- --coverage",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
         "migrations": "npx prisma migrate deploy",
@@ -25,6 +25,7 @@
         "@faker-js/faker": "^10.4.0",
         "@types/jest": "^30.0.0",
         "babel-jest": "^30.4.1",
+        "dotenv-cli": "^11.0.0",
         "eslint": "^10.2.1",
         "eslint-config-prettier": "^10.1.8",
         "globals": "^17.5.0",
@@ -36,6 +37,7 @@
     "dependencies": {
         "@prisma/client": "^6.19.3",
         "bcrypt": "^6.0.0",
+        "dayjs": "^1.11.21",
         "dotenv": "^17.4.2",
         "express": "^5.2.1",
         "pg": "^8.20.0",
