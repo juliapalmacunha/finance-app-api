@@ -7,7 +7,7 @@
     "scripts": {
         "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
         "test:watch": "npm run test -- --watch --watchPathIgnorePatterns=\".postgres-data\"",
-        "test:coverage": "npm run test -- --coverage",
+        "test:coverage": "npm run test -- --coverage --silent",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
         "migrations": "npx prisma migrate deploy",
