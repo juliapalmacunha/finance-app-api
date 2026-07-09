@@ -43,4 +43,16 @@ describe('PostgresCreateUserRepository', () => {
         //assert
         await expect(promise).rejects.toThrow()
     })
+
+    it('should throw if Prisma throws', async () => {
+        //arrange
+        const sut = new PostgresCreateUserRepository()
+        jest.spyOn(prisma.user, 'create').mockRejectedValueOnce(new Error())
+
+        //act
+        const promise = sut.execute(user)
+
+        //assert
+        await expect(promise).rejects.toThrow()
+    })
 })
