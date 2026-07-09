@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { DeleteUserController } from './delete-user'
 import { user } from '../../tests'
+import { UserNotFoundError } from '../../errors'
 
 describe('Delete User Controller', () => {
     // 1. Classe criada e fechada corretamente
@@ -55,7 +56,9 @@ describe('Delete User Controller', () => {
     it('should return 404 if user is not found', async () => {
         //arrange
         const { sut, deleteUserUseCase } = makeSut()
-        jest.spyOn(deleteUserUseCase, 'execute').mockResolvedValueOnce(null)
+        jest.spyOn(deleteUserUseCase, 'execute').mockRejectedValueOnce(
+            new UserNotFoundError(user.id),
+        )
 
         //act
         const result = await sut.execute(httpRequest)
