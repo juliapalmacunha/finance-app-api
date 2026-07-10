@@ -3,12 +3,14 @@ import {
     UpdateUserController,
     DeleteUserController,
     GetUserByIdController,
+    GetUserBalanceController,
 } from '../../controllers'
 import {
     makeCreateUserController,
     makeDeleteUserController,
     makeGetUserByIdController,
     makeUpdateUserController,
+    makeGetUserBalanceController,
 } from './user'
 
 describe('UserControllerFactories', () => {
@@ -27,6 +29,12 @@ describe('UserControllerFactories', () => {
     it('should return a valid GetUserByIdController instance', () => {
         expect(makeGetUserByIdController()).toBeInstanceOf(
             GetUserByIdController,
+        )
+    })
+
+    it('should return a valid GetUserBalanceController instance', () => {
+        expect(makeGetUserBalanceController()).toBeInstanceOf(
+            GetUserBalanceController,
         )
     })
 })
