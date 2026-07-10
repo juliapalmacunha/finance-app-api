@@ -1,5 +1,13 @@
-import { CreateUserController, UpdateUserController } from '../../controllers'
-import { makeCreateUserController, makeUpdateUserController } from './user'
+import {
+    CreateUserController,
+    UpdateUserController,
+    DeleteUserController,
+} from '../../controllers'
+import {
+    makeCreateUserController,
+    makeDeleteUserController,
+    makeUpdateUserController,
+} from './user'
 
 describe('UserControllerFactories', () => {
     it('should return a valid CreateUserController instance', () => {
@@ -8,5 +16,9 @@ describe('UserControllerFactories', () => {
 
     it('should return a valid UpdateUserController instance', () => {
         expect(makeUpdateUserController()).toBeInstanceOf(UpdateUserController)
+    })
+
+    it('should return a valid DeleteUserController instance', () => {
+        expect(makeDeleteUserController()).toBeInstanceOf(DeleteUserController)
     })
 })
