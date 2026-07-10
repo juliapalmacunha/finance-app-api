@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "dotenv -e .env.test -- jest --passWithNoTests --runInBand",
-       "test:watch": "npm run test -- --watch --silent",
+        "test:watch": "npm run test -- --watch --silent",
         "test:coverage": "npm run test -- --coverage --silent",
         "postinstall": "npx prisma generate",
         "prepare": "husky",
@@ -42,7 +42,7 @@
         "express": "^5.2.1",
         "pg": "^8.20.0",
         "prisma": "^6.19.3",
-        "uuid": "^14.0.0",
+        "uuid": "^9.0.1",
         "validator": "^13.15.35",
         "zod": "^4.4.3"
     }
