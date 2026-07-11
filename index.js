@@ -1,13 +1,6 @@
 import 'dotenv/config.js'
 import express from 'express'
-import { usersRouter } from './src/routes/users.js'
-
-import {
-    makeCreateTransactionController,
-    makeDeleteTransactionController,
-    makeGetTransactionsByUserIdController,
-    makeUpdateTransactionController,
-} from './src/factories/controllers/transaction.js'
+import { transactionsRouter, usersRouter } from './src/routes/index.js'
 
 const app = express()
 
@@ -15,40 +8,7 @@ app.use(express.json())
 
 app.use('/api/users', usersRouter)
 
-//puxando transacoes do banco por id de usuario
-app.get('/api/transactions/', async (request, response) => {
-    const getTransactionsByUserIdController =
-        makeGetTransactionsByUserIdController()
-
-    const { statusCode, body } =
-        await getTransactionsByUserIdController.execute(request)
-    response.status(statusCode).send(body)
-})
-
-//criancao da rota para criar transacao
-app.post('/api/transactions', async (request, response) => {
-    const createTransactionController = makeCreateTransactionController()
-
-    const { statusCode, body } =
-        await createTransactionController.execute(request)
-    response.status(statusCode).send(body)
-})
-
-app.patch('/api/transactions/:transactionId', async (request, response) => {
-    const updateTransactionController = makeUpdateTransactionController()
-
-    const { statusCode, body } =
-        await updateTransactionController.execute(request)
-    response.status(statusCode).send(body)
-})
-
-app.delete('/api/transactions/:transactionId', async (request, response) => {
-    const deleteTransactionController = makeDeleteTransactionController()
-
-    const { statusCode, body } =
-        await deleteTransactionController.execute(request)
-    response.status(statusCode).send(body)
-})
+app.use('/api/transactions', transactionsRouter)
 
 app.listen(process.env.PORT, () =>
     console.log('Server is running on port ' + process.env.PORT),
