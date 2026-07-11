@@ -8,7 +8,7 @@ import {
     makeUpdateUserController,
 } from '../factories/controllers/user.js'
 
-const usersRouter = Router()
+export const usersRouter = Router()
 
 usersRouter.get('/:id', async (request, response) => {
     const getUserByIdController = makeGetUserByIdController()
