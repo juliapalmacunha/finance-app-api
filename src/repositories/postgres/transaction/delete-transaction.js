@@ -1,6 +1,6 @@
 import { prisma } from '../../../../prisma/prisma.js'
-import { TransactionNotFoundError } from '../../../errors/index.js'
-import { PrismaClientKnownRequestError } from '@prisma/client'
+import { TransactionNotFoundError } from '../../../errors/index.js' // Remova a linha antiga e mude para esta:
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 
 export class PostgresDeleteTransactionRepository {
     async execute(transactionId) {
