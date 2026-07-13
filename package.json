@@ -11,7 +11,7 @@
         "postinstall": "npx prisma generate",
         "prepare": "husky",
         "migrations": "npx prisma migrate deploy",
-        "start:dev": "node --watch index.js"
+        "start:dev": "dotenv -e .env -- node --watch index.js"
     },
     "keywords": [],
     "author": "",
