@@ -131,6 +131,15 @@ describe('UserE2eTests', () => {
         })
     })
 
+    it('GET api/users/userId/balance should return 404 when a user is not found', async () => {
+        const response = await request(app).get(
+            `/api/users/${faker.string.uuid()}`,
+        )
+
+        //assert
+        expect(response.status).toBe(404)
+    })
+
     it('GET api/users/userId should return 404 when a user is not found', async () => {
         const response = await request(app).get(
             `/api/users/${faker.string.uuid()}`,
