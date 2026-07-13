@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { UpdateUserController } from './update-user'
-import { EmailAlreadyInUseError } from '../../errors/user'
+import { EmailAlreadyInUseError, UserNotFoundError } from '../../errors/user'
 import { user } from '../../tests'
 
 describe('UpdateUserController', () => {
@@ -181,5 +181,20 @@ describe('UpdateUserController', () => {
             httpRequest.params.userId,
             httpRequest.body,
         )
+    })
+
+    it('should return 404 if  throws with UserNotFoundError', async () => {
+        // arrange
+        const { sut, updateUserUseCase } = makeSut()
+
+        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(
+            new UserNotFoundError(),
+        )
+
+        // act
+        const result = await sut.execute(httpRequest)
+
+        // assert
+        expect(result.statusCode).toBe(404)
     })
 })
