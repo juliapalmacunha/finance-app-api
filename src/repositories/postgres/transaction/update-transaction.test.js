@@ -2,6 +2,8 @@ import { PostgresUpdateTransactionRepository } from './update-transaction'
 import { transaction, user } from '../../../tests'
 import { prisma } from '../../../../prisma/prisma'
 import { faker } from '@faker-js/faker'
+import { Prisma } from '@prisma/client'
+import { TransactionNotFoundError } from '../../../errors'
 
 describe('PostgresUpdateTransactionRepository', () => {
     it('should update a transaction on db', async () => {
@@ -75,5 +77,23 @@ describe('PostgresUpdateTransactionRepository', () => {
 
         //assert
         await expect(promise).rejects.toThrow()
+    })
+
+    it('should throw TransactionNotFoundError if transaction is not found', async () => {
+        //arrange
+        const sut = new PostgresUpdateTransactionRepository()
+        jest.spyOn(prisma.transaction, 'update').mockRejectedValueOnce(
+            new Prisma.PrismaClientKnownRequestError('', {
+                code: 'P2025',
+            }),
+        )
+
+        //act
+        const promise = sut.execute(transaction.id, transaction)
+
+        //assert
+        await expect(promise).rejects.toThrow(
+            new TransactionNotFoundError(transaction.id),
+        )
     })
 })
