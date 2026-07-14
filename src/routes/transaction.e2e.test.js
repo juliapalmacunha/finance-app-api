@@ -90,4 +90,31 @@ describe('UserE2eTests', () => {
         expect(response.body.amount).toBe('200')
         expect(response.body.type).toBe(TransactionType.EXPENSE)
     })
+
+    it('DELETE api/transactions should return 200 when a transaction is deleted', async () => {
+        //criar usuario
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
+
+        //criar transação
+        const { body: createdTransaction } = await request(app)
+            .post(`/api/transactions`)
+            .send({
+                ...transaction,
+                user_id: createdUser.id,
+                id: undefined,
+            })
+
+        const response = await request(app).delete(
+            `/api/transactions/${createdTransaction.id}`,
+        )
+
+        //assert
+        expect(response.status).toBe(200)
+        expect(response.body.id).toBe(createdTransaction.id)
+    })
 })
