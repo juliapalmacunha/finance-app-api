@@ -1,6 +1,7 @@
 import request from 'supertest'
 import { app } from '../app.js'
 import { transaction, user } from '../tests/index.js'
+import { TransactionType } from '@prisma/client'
 
 describe('UserE2eTests', () => {
     it('POST api/transactions should return 201 when a transaction is created', async () => {
@@ -28,7 +29,7 @@ describe('UserE2eTests', () => {
         expect(response.body.amount).toBe(String(transaction.amount))
     })
 
-    it('GET api/transactions/userId should return 200 when get transaction by userId', async () => {
+    it('GET api/transactions/userId should return 200 when get transactions by userId', async () => {
         //cria usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -55,5 +56,38 @@ describe('UserE2eTests', () => {
         //id da primeira transação [0] seja da transação que eu criei
         expect(response.status).toBe(200)
         expect(response.body[0].id).toBe(createdTransaction.id)
+    })
+
+    it('PATCH api/transactions/userId should return 200 when get transaction is updated', async () => {
+        //cria usuario
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                ...user,
+                id: undefined,
+            })
+
+        //criar transação
+        const { body: createdTransaction } = await request(app)
+            .post(`/api/transactions`)
+            .send({
+                ...transaction,
+                user_id: createdUser.id,
+                id: undefined,
+            })
+
+        //chamar requisição para atualizar
+        const response = await request(app)
+            .patch(`/api/transactions/${createdTransaction.id}`)
+            .send({
+                type: TransactionType.EXPENSE,
+                amount: 200,
+            })
+
+        //assert
+        //id da primeira transação [0] seja da transação que eu criei
+        expect(response.status).toBe(200)
+        expect(response.body.amount).toBe('200')
+        expect(response.body.type).toBe(TransactionType.EXPENSE)
     })
 })
