@@ -9,6 +9,8 @@ import {
     userNotFoundResponse,
 } from '../helpers/index.js'
 import { updateTransactionSchema } from '../../schemas/transaction.js'
+import { transactionNotFoundResponse } from '../helpers/transaction.js'
+import { TransactionNotFoundError } from '../../errors/transaction.js'
 
 export class UpdateTransactionController {
     constructor(updateTransactionUseCase) {
@@ -47,6 +49,9 @@ export class UpdateTransactionController {
             }
             if (error instanceof UserNotFoundError) {
                 return userNotFoundResponse()
+            }
+            if (error instanceof TransactionNotFoundError) {
+                return transactionNotFoundResponse()
             }
             return serverError()
         }
