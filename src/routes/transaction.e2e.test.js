@@ -117,4 +117,17 @@ describe('UserE2eTests', () => {
         expect(response.status).toBe(200)
         expect(response.body.id).toBe(createdTransaction.id)
     })
+
+    it('PATCH api/transactions/:id should return 404 when transaction does not exist', async () => {
+        //chamar requisição para atualizar
+        const response = await request(app)
+            .patch(`/api/transactions/${transaction.id}`)
+            .send({
+                type: TransactionType.EXPENSE,
+                amount: 200,
+            })
+
+        //assert
+        expect(response.status).toBe(404)
+    })
 })
