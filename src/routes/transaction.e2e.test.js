@@ -130,4 +130,17 @@ describe('UserE2eTests', () => {
         //assert
         expect(response.status).toBe(404)
     })
+
+    it('DELETE api/transactions/:id should return 404 when transaction does not exist', async () => {
+        //chamar requisição para atualizar
+        const response = await request(app)
+            .delete(`/api/transactions/${transaction.id}`)
+            .send({
+                type: TransactionType.EXPENSE,
+                amount: 200,
+            })
+
+        //assert
+        expect(response.status).toBe(404)
+    })
 })
