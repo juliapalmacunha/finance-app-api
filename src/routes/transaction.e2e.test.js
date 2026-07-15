@@ -133,12 +133,19 @@ describe('UserE2eTests', () => {
 
     it('DELETE api/transactions/:id should return 404 when transaction does not exist', async () => {
         //chamar requisição para atualizar
-        const response = await request(app)
-            .delete(`/api/transactions/${transaction.id}`)
-            .send({
-                type: TransactionType.EXPENSE,
-                amount: 200,
-            })
+        const response = await request(app).delete(
+            `/api/transactions/${transaction.id}`,
+        )
+
+        //assert
+        expect(response.status).toBe(404)
+    })
+
+    it('GET api/transactions/:id should return 404 when transaction does not exist', async () => {
+        //chamar requisição para atualizar
+        const response = await request(app).get(
+            `/api/transactions/userId${transaction.user_id}`,
+        )
 
         //assert
         expect(response.status).toBe(404)
