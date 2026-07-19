@@ -6,41 +6,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/users/{userId}/balance": {
-            "get": {
-                "summary": "Get user balance by user ID",
-                "tags": ["User"],
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "type": "string",
-                        "description": "ID of the user to get balance"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User balance found successfully",
-                        "schema": {
-                            "$ref": "#/definitions/UserBalanceResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "User not found",
-                        "schema": {
-                            "$ref": "#/definitions/UserNotFoundErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/InternalServerErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
+       
         "/api/users/{userId}": {
             "get": {
                 "summary": "Get user by ID",
@@ -183,6 +149,41 @@
                 }
             }
         },
+         "/api/users/{userId}/balance": {
+            "get": {
+                "summary": "Get user balance by user ID",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the user to get balance"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User balance found successfully",
+                        "schema": {
+                            "$ref": "#/definitions/UserBalanceResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/transactions": {
             "get": {
                 "summary": "Get all transactions for a user",
@@ -260,8 +261,56 @@
                     }
                 }
             }
-        }
-        
+        },
+        "/api/transactions/{transactionId}":{
+            "patch": {
+                "summary": "Update a transaction by ID",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the transaction to update"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamsErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionNotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        }        
     },
     "definitions": {
         "User": {
@@ -393,6 +442,37 @@
                 "amount": {
                     "type": "number",
                     "example": 100.0
+                }
+            }
+        },
+         "UpdateTransactionParams": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "example": "2023-06-30T12:00:00Z"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Salary for June"
+                },  
+                "type": {
+                    "type": "string",
+                    "example": "EARNING",
+                    "description": "Type of transaction. Can be EARNING, EXPENSE, or INVESTMENT"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 100.0
+                }
+            }
+        },
+        "TransactionNotFoundErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "Transaction not found"
                 }
             }
         },
