@@ -6,7 +6,39 @@
         "version": "1.0.0"
     },
     "paths": {
-       
+        "/api/users": {
+            "post": {
+                "summary": "Create a new user",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/CreateUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamsErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/users/{userId}": {
             "get": {
                 "summary": "Get user by ID",
@@ -116,40 +148,7 @@
                 }
             }
         },
-        "/api/users": {
-            "post": {
-                "summary": "Create a new user",
-                "tags": ["User"],
-                "parameters": [
-                    {
-                        "name": "user",
-                        "required": true,
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/CreateUserParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "User created successfully"
-                    },
-                    "400": {
-                        "description": "Invalid params",
-                        "schema": {
-                            "$ref": "#/definitions/InvalidParamsErrorResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/InternalServerErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-         "/api/users/{userId}/balance": {
+        "/api/users/{userId}/balance": {
             "get": {
                 "summary": "Get user balance by user ID",
                 "tags": ["User"],
@@ -262,7 +261,7 @@
                 }
             }
         },
-        "/api/transactions/{transactionId}":{
+        "/api/transactions/{transactionId}": {
             "patch": {
                 "summary": "Update a transaction by ID",
                 "tags": ["Transaction"],
@@ -309,8 +308,38 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "summary": "Delete a transaction by ID",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the transaction to delete"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction deleted successfully"
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionNotFoundErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
             }
-        }        
+        }
     },
     "definitions": {
         "User": {
@@ -433,7 +462,7 @@
                 "name": {
                     "type": "string",
                     "example": "Salary for June"
-                },  
+                },
                 "type": {
                     "type": "string",
                     "example": "EARNING",
@@ -445,7 +474,7 @@
                 }
             }
         },
-         "UpdateTransactionParams": {
+        "UpdateTransactionParams": {
             "type": "object",
             "properties": {
                 "date": {
@@ -455,7 +484,7 @@
                 "name": {
                     "type": "string",
                     "example": "Salary for June"
-                },  
+                },
                 "type": {
                     "type": "string",
                     "example": "EARNING",
