@@ -6,40 +6,42 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/users": {
-            "post": {
-                "summary": "Create a new user",
+         "/api/users/{userId}/balance": {
+            "get": {
+                "summary": "Get user balance by user ID",
                 "tags": ["User"],
                 "parameters": [
                     {
-                        "name": "user",
+                        "name": "userId",
+                        "in": "path",
                         "required": true,
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/User"
-                        }
+                        "type": "string",
+                        "description": "ID of the user to get balance"
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "User created successfully"
-                    },
-                    "400": {
-                        "description": "Invalid params",
+                    "200": {
+                        "description": "User balance found successfully",
                         "schema": {
-                            "$ref": "#/definitions/InvalidParamsErrorResponse"
+                            "$ref": "#/definitions/UserBalanceResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                           "$ref": "#/definitions/InternalServerErrorResponse"
+                            "$ref": "#/definitions/InternalServerErrorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/users/{userId}": {
+         "/api/users/{userId}": {
             "get": {
                 "summary": "Get user by ID",
                 "tags": ["User"],
@@ -122,7 +124,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/CreateUserParams"
                         }
                     }
                 ],
@@ -143,6 +145,39 @@
                         "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "post": {
+                "summary": "Create a new user",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamsErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                           "$ref": "#/definitions/InternalServerErrorResponse"
                         }
                     }
                 }
@@ -222,6 +257,27 @@
                     "example": "Invalid params"
                 }
             }
+        },
+        "UserBalanceResponse": {
+            "type": "object",
+            "properties": {
+                "earnings": {
+                    "type": "string",
+                    "example": 5000
+                },
+                  "expenses": {
+                    "type": "string",
+                    "example": 500
+                },
+                  "investments": {
+                    "type": "string",
+                    "example": 500
+                },
+                  "balance": {
+                    "type": "string",
+                    "example": 4000
+                }
+            }
         }
-    }
+    } 
 }
