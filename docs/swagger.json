@@ -372,19 +372,23 @@
             "properties": {
                 "first_name": {
                     "type": "string",
-                    "example": "John"
+                    "example": "John",
+                    "required": true
                 },
                 "last_name": {
                     "type": "string",
-                    "example": "Doe"
+                    "example": "Doe",   
+                    "required": true
                 },
                 "email": {
                     "type": "string",
-                    "example": "email@example.com"
+                    "example": "email@example.com",
+                    "required": true
                 },
                 "password": {
                     "type": "string",
-                    "example": "password123"
+                    "example": "password123",
+                    "required": true
                 }
             }
         },
@@ -453,24 +457,29 @@
             "properties": {
                 "user_id": {
                     "type": "string",
-                    "example": "123e4567-e89b-12d3-a456-426614174000"
+                    "example": "123e4567-e89b-12d3-a456-426614174000",
+                    "required": true
                 },
                 "date": {
                     "type": "string",
-                    "example": "2023-06-30T12:00:00Z"
+                    "example": "2023-06-30T12:00:00Z",
+                    "required": true
                 },
                 "name": {
                     "type": "string",
-                    "example": "Salary for June"
+                    "example": "Salary for June",
+                    "required": true
                 },
                 "type": {
                     "type": "string",
                     "example": "EARNING",
-                    "description": "Type of transaction. Can be EARNING, EXPENSE, or INVESTMENT"
+                    "description": "Type of transaction. Can be EARNING, EXPENSE, or INVESTMENT",
+                    "required": true
                 },
                 "amount": {
                     "type": "number",
-                    "example": 100.0
+                    "example": 100.0,
+                    "required": true
                 }
             }
         },
