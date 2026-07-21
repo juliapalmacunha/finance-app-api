@@ -8,7 +8,7 @@ export default async () => {
     console.log(
         '\n🐳 [Docker]: Garantindo que o container de testes está de pé...',
     )
-    execSync('docker-compose up -d --wait postgres-test')
+    execSync('docker compose up -d --wait postgres-test')
 
     console.log('⏳ [Setup]: Aguardando o banco estabilizar as conexões...')
     await esperar(2000) // Aguarda 2 segundos antes de prosseguir
