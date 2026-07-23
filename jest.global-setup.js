@@ -14,7 +14,7 @@ export default async () => {
     await esperar(2000) // Aguarda 2 segundos antes de prosseguir
 
     console.log('🚀 [Prisma]: Sincronizando o banco de testes com db push...')
-    execSync('npx prisma db push')
+    execSync('npx prisma db push', { stdio: 'inherit' })
 
     console.log('✅ [Setup]: Tudo pronto! Iniciando os testes...\n')
 }
