@@ -30,5 +30,5 @@ jobs:
         env:
           NODE_ENV: test
           # Ajuste a URL abaixo com o usuário, senha e porta do seu docker-compose.yml
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5433/finance_test?schema=public"
+          DATABASE_URL: "postgresql://postgres:julia123@localhost:5433/financeapp_test?schema=public"
         run: npm run test
