@@ -21,7 +21,7 @@ describe('PostgresCreateUserRepository', () => {
     it('should call Prisma with correct values', async () => {
         //arrange
         const sut = new PostgresCreateUserRepository()
-        const createSpy = jest.spyOn(prisma.user, 'create')
+        const createSpy = import.meta.jest.spyOn(prisma.user, 'create')
 
         //act
         await sut.execute(user)
@@ -35,7 +35,9 @@ describe('PostgresCreateUserRepository', () => {
     it('should throw if Prisma throws', async () => {
         //arrange
         const sut = new PostgresCreateUserRepository()
-        jest.spyOn(prisma.user, 'create').mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(prisma.user, 'create')
+            .mockRejectedValueOnce(new Error())
 
         //act
         const promise = sut.execute(user)
@@ -47,7 +49,9 @@ describe('PostgresCreateUserRepository', () => {
     it('should throw if Prisma throws', async () => {
         //arrange
         const sut = new PostgresCreateUserRepository()
-        jest.spyOn(prisma.user, 'create').mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(prisma.user, 'create')
+            .mockRejectedValueOnce(new Error())
 
         //act
         const promise = sut.execute(user)

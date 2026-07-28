@@ -112,9 +112,9 @@ describe('UpdateUserController', () => {
     it('should return 500 if UpdateUserController throws with generic error', async () => {
         //arrange
         const { sut, updateUserUseCase } = makeSut()
-        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(updateUserUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
 
         //act
         const result = await sut.execute(httpRequest)
@@ -126,9 +126,11 @@ describe('UpdateUserController', () => {
     it('should return 400 if UpdateUserUseCase throws with EmailAlreadyInUseError', async () => {
         //arrange
         const { sut, updateUserUseCase } = makeSut()
-        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(() => {
-            new EmailAlreadyInUseError(faker.internet.email())
-        })
+        import.meta.jest
+            .spyOn(updateUserUseCase, 'execute')
+            .mockRejectedValueOnce(() => {
+                new EmailAlreadyInUseError(faker.internet.email())
+            })
         //act
         const result = await sut.execute(httpRequest)
         //assert
@@ -157,9 +159,9 @@ describe('UpdateUserController', () => {
         // arrange
         const { sut, updateUserUseCase } = makeSut()
 
-        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(
-            new EmailAlreadyInUseError(),
-        )
+        import.meta.jest
+            .spyOn(updateUserUseCase, 'execute')
+            .mockRejectedValueOnce(new EmailAlreadyInUseError())
 
         // act
         const result = await sut.execute(httpRequest)
@@ -171,7 +173,7 @@ describe('UpdateUserController', () => {
     it('should call UpdateUserUseCase with correct params', async () => {
         //arrange
         const { sut, updateUserUseCase } = makeSut()
-        const executeSpy = jest.spyOn(updateUserUseCase, 'execute')
+        const executeSpy = import.meta.jest.spyOn(updateUserUseCase, 'execute')
 
         //act
         await sut.execute(httpRequest)
@@ -187,9 +189,9 @@ describe('UpdateUserController', () => {
         // arrange
         const { sut, updateUserUseCase } = makeSut()
 
-        jest.spyOn(updateUserUseCase, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        )
+        import.meta.jest
+            .spyOn(updateUserUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError())
 
         // act
         const result = await sut.execute(httpRequest)

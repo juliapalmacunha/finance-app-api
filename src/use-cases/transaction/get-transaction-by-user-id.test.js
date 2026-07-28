@@ -46,7 +46,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw UserNotFoundError if user is not found', async () => {
         //arrange
         const { sut, getUserByIdRepository } = makeSut()
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(null)
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockResolvedValueOnce(null)
         const id = faker.string.uuid()
 
         //act
@@ -59,7 +61,10 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should call GetUserByIdRepository with correct param', async () => {
         //arrange
         const { sut, getUserByIdRepository } = makeSut()
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute')
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        )
         const id = faker.string.uuid()
 
         //act
@@ -72,7 +77,7 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should call getTransactionsByUserIdRepository with correct param', async () => {
         //arrange
         const { sut, getTransactionByUserIdRepository } = makeSut()
-        const executeSpy = jest.spyOn(
+        const executeSpy = import.meta.jest.spyOn(
             getTransactionByUserIdRepository,
             'execute',
         )
@@ -88,9 +93,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw getUserByIdRepository throws', async () => {
         //arrange
         const { sut, getUserByIdRepository } = makeSut()
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        )
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
         const id = faker.string.uuid()
 
         //act
@@ -103,10 +108,9 @@ describe('GetTransactionByUserIdUseCase', () => {
     it('should throw getTransactionByUserIdRepository throws', async () => {
         //arrange
         const { sut, getTransactionByUserIdRepository } = makeSut()
-        jest.spyOn(
-            getTransactionByUserIdRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(getTransactionByUserIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error())
         const id = faker.string.uuid()
 
         //act

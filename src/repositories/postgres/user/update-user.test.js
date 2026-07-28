@@ -30,7 +30,7 @@ describe('PostgresUpdateUserRepository', () => {
         const sut = new PostgresUpdateUserRepository()
         const user = await prisma.user.create({ data: fakeUser })
 
-        const prismaSpy = jest.spyOn(prisma.user, 'update')
+        const prismaSpy = import.meta.jest.spyOn(prisma.user, 'update')
 
         await sut.execute(user.id, updateUserParams)
 
@@ -46,7 +46,9 @@ describe('PostgresUpdateUserRepository', () => {
     it('should throw if Prisma throws', async () => {
         //arrange
         const sut = new PostgresUpdateUserRepository()
-        jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(new Error())
+        import.meta.jest
+            .spyOn(prisma.user, 'update')
+            .mockRejectedValueOnce(new Error())
 
         //act
         const promise = sut.execute(fakeUser.id, updateUserParams)
@@ -58,7 +60,7 @@ describe('PostgresUpdateUserRepository', () => {
     it('should throw UserNotFoundError if user is not found', async () => {
         //arrange
         const sut = new PostgresUpdateUserRepository()
-        jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(
+        import.meta.jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(
             new Prisma.PrismaClientKnownRequestError('', {
                 code: 'P2025',
             }),
