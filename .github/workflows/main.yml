@@ -21,7 +21,7 @@ jobs:
         run: echo "DATABASE_URL=\"postgresql://postgres:julia123@localhost:5433/financeapp_test?schema=public\"" >> .env.test
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include=dev
 
       - name: ESlint
         run: npm run eslint:check
@@ -52,7 +52,7 @@ jobs:
 
       # Instalamos as dependências do projeto
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include=dev
 
       - name: Run Prisma Migrations
         run: npx prisma migrate deploy
