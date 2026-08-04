@@ -14,16 +14,28 @@ describe('LoginUserUseCase', () => {
         }
     }
 
+    class TokensGeneratorAdapterStub {
+        async execute() {
+            return {
+                accessToken: 'access_token',
+                refreshToken: 'refresh_token',
+            }
+        }
+    }
+
     const makeSut = () => {
         const getUserByEmailRepository = new GetUserByEmailRepositoryStub()
         const passwordComparatorAdapter = new PasswordComparatorAdapterStub()
+        const tokensGeneratorAdapter = new TokensGeneratorAdapterStub()
         const sut = new LoginUserUseCase(
             getUserByEmailRepository,
             passwordComparatorAdapter,
+            tokensGeneratorAdapter,
         )
         return {
             getUserByEmailRepository,
             passwordComparatorAdapter,
+            tokensGeneratorAdapter,
             sut,
         }
     }
