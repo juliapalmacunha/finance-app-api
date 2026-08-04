@@ -1,9 +1,14 @@
-import bcrypt from 'bcrypt'
 import { InvalidPasswordError, UserNotFoundError } from '../../errors/user'
 
 export class LoginUserUseCase {
-    constructor(getUserByEmailRepository) {
+    constructor(
+        getUserByEmailRepository,
+        passwordComparatorAdapter,
+        tokensGeneratorAdapter,
+    ) {
         this.getUserByEmailRepository = getUserByEmailRepository
+        this.passwordComparatorAdapter = passwordComparatorAdapter
+        this.tokensGeneratorAdapter = tokensGeneratorAdapter
     }
     async execute(email, password) {
         //verificar se o email existe no banco de dados
@@ -13,9 +18,20 @@ export class LoginUserUseCase {
         }
 
         //verificar se a senha é valida
-        const passwordIsValid = bcrypt.compareSync(password, user.password)
+        const passwordIsValid = await this.passwordComparatorAdapter.execute(
+            password,
+            user.password,
+        )
         if (!passwordIsValid) {
             throw new InvalidPasswordError()
+        }
+        //gerar os tokens
+        const tokens = await this.tokensGeneratorAdapter.execute(user.id)
+
+        //retornar o usuario com os tokens
+        return {
+            user,
+            tokens,
         }
     }
 }
