@@ -38,4 +38,21 @@ describe('loginUserController', () => {
         expect(result.body.tokens.accessToken).toBe('accessToken')
         expect(result.body.tokens.refreshToken).toBe('refreshToken')
     })
+
+    it('should call LoginUserUseCase with correct params', async () => {
+        //arrange
+        const { sut, loginUserUseCase } = makeSut()
+        const executeSpy = import.meta.jest.spyOn(loginUserUseCase, 'execute')
+
+        //act
+        await sut.execute({
+            body: {
+                email: user.email,
+                password: 'validPassword',
+            },
+        })
+
+        //assert
+        expect(executeSpy).toHaveBeenCalledWith(user.email, 'validPassword')
+    })
 })
