@@ -40,3 +40,24 @@ export const createUserSchema = z.object({
 export const updateUserSchema = createUserSchema.partial().strict({
     message: 'Some provided fields are not allowed',
 })
+
+export const loginUserSchema = z.object({
+    email: z
+        .string({
+            required_error: 'Email is required',
+        })
+        .email({
+            message: 'Please provide a valid email address',
+        })
+        .min(1, {
+            message: 'Email is required',
+        }),
+    password: z
+        .string({
+            required_error: 'Password is required',
+        })
+        .trim()
+        .min(6, {
+            message: 'Password must be at least 6 characters long',
+        }),
+})
