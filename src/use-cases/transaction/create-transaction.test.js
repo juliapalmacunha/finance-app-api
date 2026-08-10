@@ -1,5 +1,5 @@
-import { CreateTransactionUseCase } from './create-transaction'
-import { UserNotFoundError } from '../../errors/user'
+import { CreateTransactionUseCase } from './create-transaction.js'
+import { UserNotFoundError } from '../../errors/index.js'
 import { transaction, user } from '../../tests/index.js'
 
 describe('CreateTransactionUseCase', () => {

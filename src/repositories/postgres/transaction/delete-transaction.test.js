@@ -1,7 +1,7 @@
-import { PostgresDeleteTransactionRepository } from './delete-transaction'
+import { PostgresDeleteTransactionRepository } from './delete-transaction.js'
 import { TransactionNotFoundError } from '../../../errors/index.js'
-import { transaction, user } from '../../../tests'
-import { prisma } from '../../../../prisma/prisma'
+import { transaction, user } from '../../../tests/index.js'
+import { prisma } from '../../../../prisma/prisma.js'
 import { PrismaClientKnownRequestError } from '@prisma/client'
 import dayjs from 'dayjs'
 

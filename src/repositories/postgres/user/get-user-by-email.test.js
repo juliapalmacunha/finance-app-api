@@ -1,5 +1,5 @@
 import { prisma } from '../../../../prisma/prisma.js'
-import { user as fakeUser } from '../../../tests'
+import { user as fakeUser } from '../../../tests/index.js'
 import { PostgresGetUserByEmailRepository } from './get-user-by-email.js'
 
 describe('PostgresGetUserByEmailRepository', () => {

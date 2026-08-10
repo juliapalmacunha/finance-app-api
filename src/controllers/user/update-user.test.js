@@ -1,7 +1,10 @@
 import { faker } from '@faker-js/faker'
-import { UpdateUserController } from './update-user'
-import { EmailAlreadyInUseError, UserNotFoundError } from '../../errors/user'
-import { user } from '../../tests'
+import { UpdateUserController } from './update-user.js'
+import {
+    EmailAlreadyInUseError,
+    UserNotFoundError,
+} from '../../errors/index.js'
+import { user } from '../../tests/index.js'
 
 describe('UpdateUserController', () => {
     class UpdateUserUseCaseStub {

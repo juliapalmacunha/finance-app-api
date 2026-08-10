@@ -1,6 +1,6 @@
 import { PostgresGetTransactionsByUserIdRepository } from './get-transactions-by-user-id.js'
-import { prisma } from '../../../../prisma/prisma'
-import { transaction, user } from '../../../tests'
+import { prisma } from '../../../../prisma/prisma.js'
+import { transaction, user } from '../../../tests/index.js'
 import dayjs from 'dayjs'
 
 describe('PostgresGetTransactionsByUserIdRepository', () => {

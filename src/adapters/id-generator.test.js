@@ -1,4 +1,4 @@
-import { IdGeneratorAdapter } from './id-generator'
+import { IdGeneratorAdapter } from './id-generator.js'
 describe('IdGeneratorAdapter', () => {
     it('should generate a valid id', () => {
         //arrange

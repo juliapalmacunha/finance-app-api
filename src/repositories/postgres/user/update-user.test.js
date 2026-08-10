@@ -1,6 +1,6 @@
 import { PostgresUpdateUserRepository } from './update-user.js'
 import { prisma } from '../../../../prisma/prisma.js'
-import { user as fakeUser } from '../../../tests'
+import { user as fakeUser } from '../../../tests/index.js'
 import { faker } from '@faker-js/faker'
 import { Prisma } from '@prisma/client'
 import { UserNotFoundError } from '../../../errors/user.js'

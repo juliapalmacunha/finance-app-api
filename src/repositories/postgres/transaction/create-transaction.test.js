@@ -1,7 +1,7 @@
-import { transaction } from '../../../tests'
-import { PostgresCreateTransactionRepository } from './create-transaction'
-import { prisma } from '../../../../prisma/prisma'
-import { user as fakeUser } from '../../../tests'
+import { transaction } from '../../../tests/index.js'
+import { PostgresCreateTransactionRepository } from './create-transaction.js'
+import { prisma } from '../../../../prisma/prisma.js'
+import { user as fakeUser } from '../../../tests/index.js'
 import dayjs from 'dayjs'
 
 describe('PostgresCreateTransactionRepository', () => {

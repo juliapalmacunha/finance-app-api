@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { DeleteTransactionController } from './delete-transaction'
-import { transaction } from '../../tests'
-import { TransactionNotFoundError } from '../../errors'
+import { DeleteTransactionController } from './delete-transaction.js'
+import { transaction } from '../../tests/index.js'
+import { TransactionNotFoundError } from '../../errors/index.js'
 
 describe('Delete Transaction Controller', () => {
     class DeleteTransactionUseCaseStub {

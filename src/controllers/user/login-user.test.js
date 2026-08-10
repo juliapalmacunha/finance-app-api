@@ -1,6 +1,6 @@
-import { InvalidPasswordError, UserNotFoundError } from '../../errors/user'
-import { user } from '../../tests'
-import { LoginUserController } from './login-user'
+import { InvalidPasswordError, UserNotFoundError } from '../../errors/user.js'
+import { user } from '../../tests/index.js'
+import { LoginUserController } from './login-user.js'
 
 describe('loginUserController', () => {
     class LoginUserUseCaseStub {

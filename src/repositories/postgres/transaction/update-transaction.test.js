@@ -1,9 +1,9 @@
-import { PostgresUpdateTransactionRepository } from './update-transaction'
-import { transaction, user } from '../../../tests'
-import { prisma } from '../../../../prisma/prisma'
+import { PostgresUpdateTransactionRepository } from './update-transaction.js'
+import { transaction, user } from '../../../tests/index.js'
+import { prisma } from '../../../../prisma/prisma.js'
 import { faker } from '@faker-js/faker'
 import { Prisma } from '@prisma/client'
-import { TransactionNotFoundError } from '../../../errors'
+import { TransactionNotFoundError } from '../../../errors/index.js'
 
 describe('PostgresUpdateTransactionRepository', () => {
     it('should update a transaction on db', async () => {

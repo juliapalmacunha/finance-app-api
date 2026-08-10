@@ -1,7 +1,7 @@
-import { PostgresDeleteUserRepository } from './delete-user'
-import { user } from '../../../tests'
-import { prisma } from '../../../../prisma/prisma'
-import { UserNotFoundError } from '../../../errors'
+import { PostgresDeleteUserRepository } from './delete-user.js'
+import { user } from '../../../tests/index.js'
+import { prisma } from '../../../../prisma/prisma.js'
+import { UserNotFoundError } from '../../../errors/index.js'
 import { Prisma } from '@prisma/client'
 
 describe('PostgresDeleteUserRepository', () => {

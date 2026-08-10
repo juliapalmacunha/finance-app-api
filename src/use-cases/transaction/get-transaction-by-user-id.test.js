@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { GetTransactionsByUserIdUseCase } from './get-transactions-by-user-id'
-import { UserNotFoundError } from '../../errors/user'
+import { GetTransactionsByUserIdUseCase } from './get-transactions-by-user-id.js'
+import { UserNotFoundError } from '../../errors/index.js'
 import { user } from '../../tests/index.js'
 
 describe('GetTransactionByUserIdUseCase', () => {

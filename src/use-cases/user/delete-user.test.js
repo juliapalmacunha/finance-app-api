@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { DeleteUserUseCase } from './delete-user'
-import { user } from '../../tests'
+import { DeleteUserUseCase } from './delete-user.js'
+import { user } from '../../tests/index.js'
 
 describe('DeleteUserUseCase', () => {
     class DeleteUserRepositoryStub {

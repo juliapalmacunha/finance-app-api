@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { DeleteTransactionUseCase } from './delete-transaction'
-import { transaction } from '../../tests'
+import { DeleteTransactionUseCase } from './delete-transaction.js'
+import { transaction } from '../../tests/index.js'
 
 describe('DeleteTransactionUseCase', () => {
     class DeleteTransactionRepositoryStub {

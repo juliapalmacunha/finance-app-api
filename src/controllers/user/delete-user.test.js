@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { DeleteUserController } from './delete-user'
-import { user } from '../../tests'
-import { UserNotFoundError } from '../../errors'
+import { DeleteUserController } from './delete-user.js'
+import { user } from '../../tests/index.js'
+import { UserNotFoundError } from '../../errors/index.js'
 
 describe('Delete User Controller', () => {
     // 1. Classe criada e fechada corretamente

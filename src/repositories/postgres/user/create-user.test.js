@@ -1,6 +1,6 @@
-import { PostgresCreateUserRepository } from './create-user'
-import { user } from '../../../tests'
-import { prisma } from '../../../../prisma/prisma'
+import { PostgresCreateUserRepository } from './create-user.js'
+import { user } from '../../../tests/index.js'
+import { prisma } from '../../../../prisma/prisma.js'
 
 describe('PostgresCreateUserRepository', () => {
     it('should create a user on db', async () => {
