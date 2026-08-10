@@ -184,4 +184,55 @@ describe('UserE2eTests', () => {
         //assert
         expect(response2.status).toBe(400)
     })
+
+    it('POST api/login should return 200 when credentials are valid ', async () => {
+        //arrange
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
+
+        //act
+        const response = await request(app)
+            .post('/api/users/login')
+            .send({
+                id: undefined,
+                ...user,
+                email: createdUser.email,
+            })
+
+        //assert
+        expect(response.status).toBe(200)
+        expect(response.body.tokens.accessToken).toBeDefined()
+        expect(response.body.tokens.refreshToken).toBeDefined()
+    })
+
+    it('POST api/users/login should return 404 when user is not found', async () => {
+        const response = await request(app).post('/api/users/login').send({
+            email: 'invalid@example.com',
+            password: faker.internet.password(),
+        })
+
+        // Assert
+        expect(response.status).toBe(404)
+    })
+
+    it('POST api/users/login should return 401 when password is invalid', async () => {
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
+
+        const response = await request(app).post('/api/users/login').send({
+            email: createdUser.email,
+            password: 'invalidPassword',
+        })
+
+        // Assert
+        expect(response.status).toBe(401)
+    })
 })
