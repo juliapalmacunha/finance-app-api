@@ -106,4 +106,24 @@ describe('loginUserController', () => {
         //assert
         expect(result.statusCode).toBe(404)
     })
+
+    it('should return 500 if LoginUserController throws an error', async () => {
+        //arrange
+        const { sut, loginUserUseCase } = makeSut()
+        import.meta.jest
+            .spyOn(loginUserUseCase, 'execute')
+            .mockRejectedValueOnce(new Error())
+        const httpRequest = {
+            body: {
+                email: user.email,
+                password: 'invalidPassword',
+            },
+        }
+
+        //act
+        const result = await sut.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(500)
+    })
 })
