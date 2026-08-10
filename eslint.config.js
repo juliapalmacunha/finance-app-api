@@ -2,7 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import { defineConfig } from 'eslint/config'
 import prettier from 'eslint-config-prettier'
-import importPlugin from 'eslint-plugin-import'
+import importPlugin from 'eslint-plugin-import-x'
 
 export default defineConfig([
     js.configs.recommended,
