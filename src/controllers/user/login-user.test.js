@@ -35,8 +35,13 @@ describe('loginUserController', () => {
 
         //assert
         expect(result.statusCode).toBe(200)
-        expect(result.body.tokens.accessToken).toBe('accessToken')
-        expect(result.body.tokens.refreshToken).toBe('refreshToken')
+        expect(result.body).toEqual({
+            ...user,
+            tokens: {
+                accessToken: 'accessToken',
+                refreshToken: 'refreshToken',
+            },
+        })
     })
 
     it('should call LoginUserUseCase with correct params', async () => {
@@ -55,4 +60,6 @@ describe('loginUserController', () => {
         //assert
         expect(executeSpy).toHaveBeenCalledWith(user.email, 'validPassword')
     })
+
+    it
 })
