@@ -2,6 +2,7 @@ import {
     PasswordHasherAdapter,
     IdGeneratorAdapter,
     TokensGeneratorAdapter,
+    PasswordComparatorAdapter,
 } from '../../adapters/index.js'
 import {
     CreateUserController,
@@ -91,11 +92,11 @@ export const makeGetUserBalanceController = () => {
 
 export const makeLoginUserController = () => {
     const getUserByEmailRepository = new PostgresGetUserByEmailRepository()
-    const passwordHasherAdapter = new PasswordHasherAdapter()
+    const passwordComparatorAdapter = new PasswordComparatorAdapter()
     const tokensGeneratorAdapter = new TokensGeneratorAdapter()
     const loginUserUseCase = new LoginUserUseCase(
         getUserByEmailRepository,
-        passwordHasherAdapter,
+        passwordComparatorAdapter,
         tokensGeneratorAdapter,
     )
     const loginUserController = new LoginUserController(loginUserUseCase)
