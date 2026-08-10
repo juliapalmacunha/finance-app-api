@@ -4,14 +4,14 @@ import {
     DeleteUserController,
     GetUserByIdController,
     GetUserBalanceController,
-} from '../../controllers'
+} from '../../controllers/index.js'
 import {
     makeCreateUserController,
     makeDeleteUserController,
     makeGetUserByIdController,
     makeUpdateUserController,
     makeGetUserBalanceController,
-} from './user'
+} from './user.js'
 
 describe('UserControllerFactories', () => {
     it('should return a valid CreateUserController instance', () => {
