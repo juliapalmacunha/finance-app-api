@@ -1,3 +1,4 @@
+import { InvalidPasswordError } from '../../errors/user'
 import { user } from '../../tests'
 import { LoginUserController } from './login-user'
 
@@ -61,5 +62,26 @@ describe('loginUserController', () => {
         expect(executeSpy).toHaveBeenCalledWith(user.email, 'validPassword')
     })
 
-    it
+    it('should return 401 when InvalidPasswordError is thrown', async () => {
+        //arrange
+        const { sut, loginUserUseCase } = makeSut()
+        import.meta.jest
+            .spyOn(loginUserUseCase, 'execute')
+            .mockImplementationOnce(() => {
+                throw new InvalidPasswordError()
+            })
+
+        const httpRequest = {
+            body: {
+                email: user.email,
+                password: 'invalidPassword',
+            },
+        }
+
+        //act
+        const result = await sut.execute(httpRequest)
+
+        //assert
+        expect(result.statusCode).toBe(401)
+    })
 })
