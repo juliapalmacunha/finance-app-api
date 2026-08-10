@@ -5,12 +5,14 @@ import {
     GetUserByIdController,
     GetUserBalanceController,
 } from '../../controllers/index.js'
+import { LoginUserController } from '../../controllers/user/login-user.js'
 import {
     makeCreateUserController,
     makeDeleteUserController,
     makeGetUserByIdController,
     makeUpdateUserController,
     makeGetUserBalanceController,
+    makeLoginUserController,
 } from './user.js'
 
 describe('UserControllerFactories', () => {
@@ -36,5 +38,9 @@ describe('UserControllerFactories', () => {
         expect(makeGetUserBalanceController()).toBeInstanceOf(
             GetUserBalanceController,
         )
+    })
+
+    it('should return a valid LoginUserController instance', () => {
+        expect(makeLoginUserController()).toBeInstanceOf(LoginUserController)
     })
 })
