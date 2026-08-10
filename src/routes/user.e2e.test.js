@@ -195,13 +195,10 @@ describe('UserE2eTests', () => {
             })
 
         //act
-        const response = await request(app)
-            .post('/api/users/login')
-            .send({
-                id: undefined,
-                ...user,
-                email: createdUser.email,
-            })
+        const response = await request(app).post('/api/users/login').send({
+            password: user.password,
+            email: createdUser.email,
+        })
 
         //assert
         expect(response.status).toBe(200)
