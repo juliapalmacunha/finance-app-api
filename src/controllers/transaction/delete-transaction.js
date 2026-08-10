@@ -5,7 +5,7 @@ import {
     ok,
     serverError,
 } from '../helpers/index.js'
-import { transactionNotFoundResponse } from '../helpers'
+import { transactionNotFoundResponse } from '../helpers/index.js'
 
 export class DeleteTransactionController {
     constructor(deleteTransactionUseCase) {
