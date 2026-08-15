@@ -8,11 +8,13 @@ export class CreateUserUseCase {
         createUserRepository,
         passwordHasherAdapter,
         idGeneratorAdapter,
+        tokensGeneratorAdapter,
     ) {
         this.postgresGetUserByEmailRepository = getUserByEmailRepository
         this.postgresCreateUserRepository = createUserRepository
         this.passwordHasherAdapter = passwordHasherAdapter
         this.idGeneratorAdapter = idGeneratorAdapter
+        this.tokensGeneratorAdapter = tokensGeneratorAdapter
     }
 
     async execute(createUserParams) {
@@ -44,6 +46,10 @@ export class CreateUserUseCase {
         //chamar o repository
         const createdUser =
             await this.postgresCreateUserRepository.execute(user)
-        return createdUser
+
+        return {
+            ...createdUser,
+            tokens: await this.tokensGeneratorAdapter.execute(userId),
+        }
     }
 }
