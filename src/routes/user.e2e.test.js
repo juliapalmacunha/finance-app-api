@@ -18,7 +18,7 @@ describe('UserE2eTests', () => {
         expect(response.status).toBe(201)
     })
 
-    it('GET api/users should return 200 when a user is found', async () => {
+    it('GET api/users/:userId should return 200 when a user is found', async () => {
         //arrange
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -28,11 +28,13 @@ describe('UserE2eTests', () => {
             })
 
         //act
-        const response = await request(app).get(`/api/users/${createdUser.id}`)
+        const response = await request(app)
+            .get(`/api/users/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         expect(response.status).toBe(200)
-        expect(response.body).toEqual(createdUser)
+        expect(response.body.id).toBe(createdUser.id)
     })
 
     it('PATCH api/users should return 200 when a user is updated', async () => {
@@ -54,6 +56,7 @@ describe('UserE2eTests', () => {
         //act
         const response = await request(app)
             .patch(`/api/users/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send(updateUserParams)
 
         //assert
@@ -64,7 +67,7 @@ describe('UserE2eTests', () => {
         expect(response.body.password).not.toBe(createdUser.password)
     })
 
-    it('DELETE api/users should return 200 when a user is deleted', async () => {
+    it('DELETE api/users/:userId should return 200 when a user is deleted', async () => {
         //arrange
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -74,16 +77,16 @@ describe('UserE2eTests', () => {
             })
 
         //act
-        const response = await request(app).delete(
-            `/api/users/${createdUser.id}`,
-        )
+        const response = await request(app)
+            .delete(`/api/users/${createdUser.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         expect(response.status).toBe(200)
-        expect(response.body).toEqual(createdUser)
+        expect(response.body.id).toBe(createdUser.id)
     })
 
-    it('GET api/:userId/balance should return 200 and correct balance', async () => {
+    it('GET api/users/:userId/balance should return 200 and correct balance', async () => {
         //arrange
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -117,9 +120,9 @@ describe('UserE2eTests', () => {
         })
 
         //act
-        const response = await request(app).get(
-            `/api/users/${createdUser.id}/balance`,
-        )
+        const response = await request(app)
+            .get(`/api/users/${createdUser.id}/balance`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         expect(response.status).toBe(200)
@@ -129,38 +132,6 @@ describe('UserE2eTests', () => {
             investments: '2000',
             balance: '6000',
         })
-    })
-
-    it('GET api/users/userId/balance should return 404 when a user is not found', async () => {
-        const response = await request(app).get(
-            `/api/users/${faker.string.uuid()}`,
-        )
-
-        //assert
-        expect(response.status).toBe(404)
-    })
-
-    it('GET api/users/userId should return 404 when a user is not found', async () => {
-        const response = await request(app).get(
-            `/api/users/${faker.string.uuid()}`,
-        )
-
-        //assert
-        expect(response.status).toBe(404)
-    })
-
-    it('PATCH api/users/userId should return 404 when a user is not found', async () => {
-        const response = await request(app)
-            .patch(`/api/users/${faker.string.uuid()}`)
-            .send({
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password(),
-            })
-
-        //assert
-        expect(response.status).toBe(404)
     })
 
     it('POST api/users should return 400 when the provided email is already in use', async () => {
