@@ -29,7 +29,7 @@ describe('UserE2eTests', () => {
 
         //act
         const response = await request(app)
-            .get(`/api/users/${createdUser.id}`)
+            .get(`/api/users/`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
@@ -55,7 +55,7 @@ describe('UserE2eTests', () => {
 
         //act
         const response = await request(app)
-            .patch(`/api/users/${createdUser.id}`)
+            .patch(`/api/users/`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send(updateUserParams)
 
@@ -78,7 +78,7 @@ describe('UserE2eTests', () => {
 
         //act
         const response = await request(app)
-            .delete(`/api/users/${createdUser.id}`)
+            .delete(`/api/users/`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
@@ -121,7 +121,7 @@ describe('UserE2eTests', () => {
 
         //act
         const response = await request(app)
-            .get(`/api/users/${createdUser.id}/balance`)
+            .get(`/api/users/balance`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
