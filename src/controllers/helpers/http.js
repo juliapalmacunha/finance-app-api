@@ -27,3 +27,8 @@ export const unauthorized = () => ({
     statusCode: 401,
     body: { message: 'Unauthorized' },
 })
+
+export const forbidden = () => ({
+    statusCode: 403,
+    body: { message: 'Forbidden' },
+})
