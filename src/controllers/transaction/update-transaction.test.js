@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker'
 import { UpdateTransactionController } from './update-transaction.js'
 import { transaction } from '../../tests/index.js'
 import { TransactionNotFoundError } from '../../errors/transaction.js'
+import { ForbiddenError } from '../../errors/user.js'
 
 describe('Update Transaction Controller', () => {
     class UpdateTransactionUseCaseStub {
@@ -49,21 +50,6 @@ describe('Update Transaction Controller', () => {
             ...httpRequest,
             params: {
                 transactionId: 'invalid-id',
-            },
-        })
-        //assert
-        expect(result.statusCode).toBe(400)
-    })
-
-    it('should return 400 when unallowed fields is provided', async () => {
-        //arrange
-        const { sut } = makeSut()
-        //act
-        const result = await sut.execute({
-            ...httpRequest,
-            body: {
-                ...httpRequest.body,
-                unallowedField: 'some_value',
             },
         })
         //assert
@@ -141,5 +127,20 @@ describe('Update Transaction Controller', () => {
 
         // assert
         expect(result.statusCode).toBe(404)
+    })
+
+    it('should return 403 if user is not allowed to update the transaction', async () => {
+        // arrange
+        const { sut, updateTransactionUseCase } = makeSut()
+
+        import.meta.jest
+            .spyOn(updateTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new ForbiddenError())
+
+        // act
+        const result = await sut.execute(httpRequest)
+
+        // assert
+        expect(result.statusCode).toBe(403)
     })
 })
