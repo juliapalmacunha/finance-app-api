@@ -4,6 +4,7 @@ import {
     DeleteTransactionController,
     GetTransactionsByUserIdController,
 } from '../../controllers/index.js'
+import { PostgresGetTransactionByIdRepository } from '../../repositories/postgres/transaction/get-transaction-by-id.js'
 import {
     makeCreateTransactionController,
     makeDeleteTransactionController,
@@ -21,6 +22,7 @@ describe('TransactionControllerFactories', () => {
     it('should return a valid UpdateTransactionController instance', () => {
         expect(makeUpdateTransactionController()).toBeInstanceOf(
             UpdateTransactionController,
+            PostgresGetTransactionByIdRepository,
         )
     })
 
