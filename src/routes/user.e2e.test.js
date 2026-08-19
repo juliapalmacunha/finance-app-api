@@ -86,7 +86,7 @@ describe('UserE2eTests', () => {
         expect(response.body.id).toBe(createdUser.id)
     })
 
-    it('GET api/users/:userId/balance should return 200 and correct balance', async () => {
+    it('GET api/users/balance should return 200 and correct balance', async () => {
         //arrange
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -95,29 +95,38 @@ describe('UserE2eTests', () => {
                 ...user,
             })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: faker.commerce.productName(),
-            date: faker.date.anytime().toISOString(),
-            type: TransactionType.EARNING,
-            amount: 10000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: faker.commerce.productName(),
+                date: faker.date.anytime().toISOString(),
+                type: TransactionType.EARNING,
+                amount: 10000,
+            })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: faker.commerce.productName(),
-            date: faker.date.anytime().toISOString(),
-            type: TransactionType.EXPENSE,
-            amount: 2000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: faker.commerce.productName(),
+                date: faker.date.anytime().toISOString(),
+                type: TransactionType.EXPENSE,
+                amount: 2000,
+            })
 
-        await request(app).post('/api/transactions').send({
-            user_id: createdUser.id,
-            name: faker.commerce.productName(),
-            date: faker.date.anytime().toISOString(),
-            type: TransactionType.INVESTMENT,
-            amount: 2000,
-        })
+        await request(app)
+            .post('/api/transactions')
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
+            .send({
+                user_id: createdUser.id,
+                name: faker.commerce.productName(),
+                date: faker.date.anytime().toISOString(),
+                type: TransactionType.INVESTMENT,
+                amount: 2000,
+            })
 
         //act
         const response = await request(app)
