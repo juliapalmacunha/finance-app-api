@@ -16,6 +16,7 @@ describe('UserE2eTests', () => {
         //criar transação
         const response = await request(app)
             .post(`/api/transactions`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
                 user_id: createdUser.id,
@@ -29,7 +30,7 @@ describe('UserE2eTests', () => {
         expect(response.body.amount).toBe(String(transaction.amount))
     })
 
-    it('GET api/transactions/userId should return 200 when get transactions by userId', async () => {
+    it('GET api/transactions should return 200 when get transactions by userId', async () => {
         //cria usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -41,6 +42,7 @@ describe('UserE2eTests', () => {
         //criar transação
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
                 user_id: createdUser.id,
@@ -48,9 +50,9 @@ describe('UserE2eTests', () => {
             })
 
         //chamar requisição
-        const response = await request(app).get(
-            `/api/transactions?userId=${createdUser.id}`,
-        )
+        const response = await request(app)
+            .get(`/api/transactions`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         //id da primeira transação [0] seja da transação que eu criei
@@ -58,7 +60,7 @@ describe('UserE2eTests', () => {
         expect(response.body[0].id).toBe(createdTransaction.id)
     })
 
-    it('PATCH api/transactions/userId should return 200 when get transaction is updated', async () => {
+    it('PATCH api/transactions/transactionId should return 200 when get transaction is updated', async () => {
         //cria usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -69,7 +71,8 @@ describe('UserE2eTests', () => {
 
         //criar transação
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
                 user_id: createdUser.id,
@@ -79,6 +82,7 @@ describe('UserE2eTests', () => {
         //chamar requisição para atualizar
         const response = await request(app)
             .patch(`/api/transactions/${createdTransaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 type: TransactionType.EXPENSE,
                 amount: 200,
@@ -103,15 +107,16 @@ describe('UserE2eTests', () => {
         //criar transação
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
                 user_id: createdUser.id,
                 id: undefined,
             })
 
-        const response = await request(app).delete(
-            `/api/transactions/${createdTransaction.id}`,
-        )
+        const response = await request(app)
+            .delete(`/api/transactions/${createdTransaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         expect(response.status).toBe(200)
@@ -119,9 +124,18 @@ describe('UserE2eTests', () => {
     })
 
     it('PATCH api/transactions/:id should return 404 when transaction does not exist', async () => {
+        //criar usuario
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
+
         //chamar requisição para atualizar
         const response = await request(app)
             .patch(`/api/transactions/${transaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 type: TransactionType.EXPENSE,
                 amount: 200,
@@ -132,20 +146,17 @@ describe('UserE2eTests', () => {
     })
 
     it('DELETE api/transactions/:id should return 404 when transaction does not exist', async () => {
+        //criar usuario
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
         //chamar requisição para atualizar
-        const response = await request(app).delete(
-            `/api/transactions/${transaction.id}`,
-        )
-
-        //assert
-        expect(response.status).toBe(404)
-    })
-
-    it('GET api/transactions/:id should return 404 when transaction does not exist', async () => {
-        //chamar requisição para atualizar
-        const response = await request(app).get(
-            `/api/transactions/userId${transaction.user_id}`,
-        )
+        const response = await request(app)
+            .delete(`/api/transactions/${transaction.id}`)
+            .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
         expect(response.status).toBe(404)
