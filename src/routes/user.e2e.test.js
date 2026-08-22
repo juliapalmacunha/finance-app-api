@@ -13,7 +13,8 @@ describe('UserE2eTests', () => {
                 id: undefined,
                 ...user,
             })
-
+        // 👇 GARANTA QUE ESTA LINHA ESTÁ AQUI
+        console.log('STATUS:', response.status, 'BODY:', response.body)
         //assert
         expect(response.status).toBe(201)
     })
