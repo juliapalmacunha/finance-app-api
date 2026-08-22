@@ -18,9 +18,10 @@ jobs:
 
       # Criamos o arquivo .env.test fisicamente no servidor do GitHub
       - name: Create .env.test file
-        run: echo "DATABASE_URL=\"postgresql://postgres:julia123@localhost:5433/financeapp_test?schema=public\"" >> .env.test
-             echo "JWT_ACCESS_TOKEN_SECRET=secret1" >> .env.test
-             echo "JWT_REFRESH_SECRET=secret2" >> .env.test
+        run: |
+          echo "DATABASE_URL=\"postgresql://postgres:julia123@localhost:5433/financeapp_test?schema=public\"" >> .env.test
+          echo "JWT_ACCESS_TOKEN_SECRET=secret1" >> .env.test
+          echo "JWT_REFRESH_SECRET=secret2" >> .env.test
 
       - name: Install dependencies
         run: npm ci --include=dev
