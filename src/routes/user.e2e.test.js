@@ -212,4 +212,26 @@ describe('UserE2eTests', () => {
         // Assert
         expect(response.status).toBe(401)
     })
+
+    it('POST api/refresh-token should return 200  and new token when refresh token is valid ', async () => {
+        //arrange
+        const { body: createdUser } = await request(app)
+            .post('/api/users')
+            .send({
+                id: undefined,
+                ...user,
+            })
+
+        //act
+        const response = await request(app)
+            .post('/api/users/refresh-token')
+            .send({
+                refreshToken: createdUser.tokens.refreshToken,
+            })
+
+        //assert
+        expect(response.status).toBe(200)
+        expect(response.body.accessToken).toBeDefined()
+        expect(response.body.refreshToken).toBeDefined()
+    })
 })
