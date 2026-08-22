@@ -3,6 +3,8 @@ export * from '../controllers/user/get-user-by-id.js'
 export * from '../controllers/user/update-user.js'
 export * from '../controllers/user/delete-user.js'
 export * from '../controllers/user/get-user-balance.js'
+export * from '../controllers/user/login-user.js'
+export * from '../controllers/user/refresh-token.js'
 
 export * from '../controllers/transaction/create-transaction.js'
 export * from '../controllers/transaction/get-transactions-by-user-id.js'
