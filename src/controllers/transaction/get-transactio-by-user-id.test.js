@@ -4,6 +4,8 @@ import { UserNotFoundError } from '../../errors/index.js'
 import { transaction } from '../../tests/index.js'
 
 describe('Get Transaction By User Id Controller', () => {
+    const from = '2023-01-01'
+    const to = '2023-12-31'
     class GetTransactionByIdUseCaseStub {
         async execute() {
             return transaction
@@ -29,6 +31,8 @@ describe('Get Transaction By User Id Controller', () => {
         const result = await sut.execute({
             query: {
                 userId: faker.string.uuid(),
+                from,
+                to,
             },
         })
         //assert
@@ -42,6 +46,8 @@ describe('Get Transaction By User Id Controller', () => {
         const result = await sut.execute({
             query: {
                 userId: undefined,
+                from,
+                to,
             },
         })
         //assert
@@ -55,6 +61,8 @@ describe('Get Transaction By User Id Controller', () => {
         const result = await sut.execute({
             query: {
                 userId: 'invalid-id',
+                from,
+                to,
             },
         })
         //assert
@@ -72,6 +80,8 @@ describe('Get Transaction By User Id Controller', () => {
         const result = await sut.execute({
             query: {
                 userId: faker.string.uuid(),
+                from,
+                to,
             },
         })
         //assert
@@ -89,6 +99,8 @@ describe('Get Transaction By User Id Controller', () => {
         const result = await sut.execute({
             query: {
                 userId: faker.string.uuid(),
+                from,
+                to,
             },
         })
         //assert
@@ -109,6 +121,8 @@ describe('Get Transaction By User Id Controller', () => {
         await sut.execute({
             query: {
                 userId,
+                from,
+                to,
             },
         })
 
