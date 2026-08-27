@@ -49,9 +49,12 @@ describe('UserE2eTests', () => {
                 id: undefined,
             })
 
+        const from = '2023-01-01'
+        const to = '2023-12-31'
+
         //chamar requisição
         const response = await request(app)
-            .get(`/api/transactions`)
+            .get(`/api/transactions?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
