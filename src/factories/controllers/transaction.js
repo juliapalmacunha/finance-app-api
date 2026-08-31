@@ -12,6 +12,7 @@ import {
     PostgresGetUserByIdRepository,
     PostgresUpdateTransactionRepository,
 } from '../../repositories/postgres/index.js'
+import { PostgresGetTransactionByIdRepository } from '../../repositories/postgres/transaction/get-transaction-by-id.js'
 import {
     CreateTransactionUseCase,
     DeleteTransactionUseCase,
@@ -56,7 +57,7 @@ export const makeUpdateTransactionController = () => {
     const updateTransactionRepository =
         new PostgresUpdateTransactionRepository()
     const getTransactionByIdRepository =
-        new PostgresGetTransactionsByUserIdRepository()
+        new PostgresGetTransactionByIdRepository()
     const updateTransactionUseCase = new UpdateTransactionUseCase(
         updateTransactionRepository,
         getTransactionByIdRepository,
