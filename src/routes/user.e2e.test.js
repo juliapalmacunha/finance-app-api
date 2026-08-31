@@ -5,6 +5,10 @@ import { faker } from '@faker-js/faker'
 import { TransactionType } from '@prisma/client'
 
 describe('UserE2eTests', () => {
+    const currentYear = new Date().getFullYear()
+    const from = `${currentYear}-01-01`
+    const to = `${currentYear}-12-31`
+
     it('POST api/users should return 201 when a user is created', async () => {
         //arrange
         const response = await request(app)
@@ -13,8 +17,6 @@ describe('UserE2eTests', () => {
                 id: undefined,
                 ...user,
             })
-        // 👇 GARANTA QUE ESTA LINHA ESTÁ AQUI
-        console.log('STATUS:', response.status, 'BODY:', response.body)
         //assert
         expect(response.status).toBe(201)
     })
@@ -89,6 +91,7 @@ describe('UserE2eTests', () => {
 
     it('GET api/users/balance should return 200 and correct balance', async () => {
         //arrange
+        //criando usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
             .send({
@@ -96,13 +99,14 @@ describe('UserE2eTests', () => {
                 ...user,
             })
 
+        //criando transacao do usuario
         await request(app)
             .post('/api/transactions')
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 user_id: createdUser.id,
                 name: faker.commerce.productName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(from),
                 type: TransactionType.EARNING,
                 amount: 10000,
             })
@@ -113,7 +117,7 @@ describe('UserE2eTests', () => {
             .send({
                 user_id: createdUser.id,
                 name: faker.commerce.productName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(from),
                 type: TransactionType.EXPENSE,
                 amount: 2000,
             })
@@ -124,14 +128,14 @@ describe('UserE2eTests', () => {
             .send({
                 user_id: createdUser.id,
                 name: faker.commerce.productName(),
-                date: faker.date.anytime().toISOString(),
+                date: new Date(from),
                 type: TransactionType.INVESTMENT,
                 amount: 2000,
             })
 
         //act
         const response = await request(app)
-            .get(`/api/users/balance`)
+            .get(`/api/users/balance?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert

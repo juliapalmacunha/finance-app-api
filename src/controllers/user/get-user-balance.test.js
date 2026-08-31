@@ -3,6 +3,9 @@ import { GetUserBalanceController } from './get-user-balance.js'
 import { UserNotFoundError } from '../../errors/index.js'
 
 describe('GetUserBalanceController', () => {
+    const currentYear = new Date().getFullYear()
+    const from = `${currentYear}-01-01`
+    const to = `${currentYear}-12-31`
     class GetUserBalanceUseCaseStub {
         async execute() {
             return faker.number.int()
@@ -19,6 +22,10 @@ describe('GetUserBalanceController', () => {
     const httpRequest = {
         params: {
             userId: faker.string.uuid(),
+        },
+        query: {
+            from: new Date(from),
+            to: new Date(to),
         },
     }
 
@@ -52,7 +59,10 @@ describe('GetUserBalanceController', () => {
         const { sut } = makeSut()
 
         //act
-        const result = await sut.execute({ params: { userId: 'invalid_id' } })
+        const result = await sut.execute({
+            params: { userId: 'invalid_id' },
+            query: { from: new Date(from), to: new Date(to) },
+        })
 
         //assert
         expect(result.statusCode).toBe(400)
@@ -84,6 +94,10 @@ describe('GetUserBalanceController', () => {
         await sut.execute(httpRequest)
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(httpRequest.params.userId)
+        expect(executeSpy).toHaveBeenCalledWith(
+            httpRequest.params.userId,
+            httpRequest.query.from,
+            httpRequest.query.to,
+        )
     })
 })
