@@ -39,18 +39,20 @@ describe('UserE2eTests', () => {
                 id: undefined,
             })
 
+        const currentYear = new Date().getFullYear()
+        const from = `${currentYear}-01-01`
+        const to = `${currentYear}-12-31`
+
         //criar transação
         const { body: createdTransaction } = await request(app)
             .post(`/api/transactions`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
+                date: new Date(from),
                 user_id: createdUser.id,
                 id: undefined,
             })
-
-        const from = '2023-01-01'
-        const to = '2023-12-31'
 
         //chamar requisição
         const response = await request(app)
@@ -58,7 +60,6 @@ describe('UserE2eTests', () => {
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
-        //id da primeira transação [0] seja da transação que eu criei
         expect(response.status).toBe(200)
         expect(response.body[0].id).toBe(createdTransaction.id)
     })
