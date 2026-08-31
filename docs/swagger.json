@@ -254,6 +254,30 @@
             "get": {
                 "summary": "Get authenticator user transactions",
                 "tags": ["Transaction"],
+                "parameters":[
+                    {
+                        "name": "from",
+                        "in": "query",
+                        "required": true,
+                        "description": "Start date for the transactions query (format: YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-01-01"
+                        }
+                    },
+                     {
+                        "name": "to",
+                        "in": "query",
+                        "required": true,
+                        "description": "End date for the transactions query (format: YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-01-01"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Transactions found successfully",
