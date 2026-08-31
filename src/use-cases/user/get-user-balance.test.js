@@ -4,6 +4,9 @@ import { UserNotFoundError } from '../../errors/user.js'
 import { user, userBalance } from '../../tests/index.js'
 
 describe('GetUserBalanceUseCase', () => {
+    const currentYear = new Date().getFullYear()
+    const from = `${currentYear}-01-01`
+    const to = `${currentYear}-12-31`
     class GetUserBalanceRepositoryStub {
         async execute() {
             return userBalance
@@ -35,7 +38,7 @@ describe('GetUserBalanceUseCase', () => {
         const { sut } = makeSut()
 
         //act
-        const result = await sut.execute(faker.string.uuid())
+        const result = await sut.execute(faker.string.uuid(), from, to)
 
         //assert
         expect(result).toEqual(userBalance)
@@ -50,7 +53,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         //act
-        const promise = sut.execute(userId)
+        const promise = sut.execute(userId, from, to)
 
         //assert
         await expect(promise).rejects.toThrow(new UserNotFoundError(userId))
@@ -66,7 +69,7 @@ describe('GetUserBalanceUseCase', () => {
         const userId = faker.string.uuid()
 
         //act
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
         //assert
         expect(executeSpy).toHaveBeenCalledWith(userId)
@@ -79,13 +82,14 @@ describe('GetUserBalanceUseCase', () => {
             getUserBalanceRepository,
             'execute',
         )
+
         const userId = faker.string.uuid()
 
         //act
-        await sut.execute(userId)
+        await sut.execute(userId, from, to)
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(userId)
+        expect(executeSpy).toHaveBeenCalledWith(userId, from, to)
     })
 
     it('should throw if GetUserByIdRepository throws', async () => {
@@ -96,7 +100,7 @@ describe('GetUserBalanceUseCase', () => {
             .mockRejectedValueOnce(new Error())
 
         //act
-        const result = sut.execute(faker.string.uuid())
+        const result = sut.execute(faker.string.uuid(), from, to)
 
         //assert
         await expect(result).rejects.toThrow()
@@ -110,7 +114,7 @@ describe('GetUserBalanceUseCase', () => {
             .mockRejectedValueOnce(new Error())
 
         //act
-        const result = sut.execute(faker.string.uuid())
+        const result = sut.execute(faker.string.uuid(), from, to)
 
         //assert
         await expect(result).rejects.toThrow()
