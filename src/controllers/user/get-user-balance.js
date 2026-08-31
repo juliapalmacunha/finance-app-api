@@ -1,10 +1,11 @@
+import { ZodError } from 'zod'
 import { UserNotFoundError } from '../../errors/user.js'
+import { getBalanceSchema } from '../../schemas/user.js'
 import {
     serverError,
     userNotFoundResponse,
-    checkIfIdIsValid,
-    invalidIdResponse,
     ok,
+    badRequest,
 } from '../helpers/index.js'
 
 export class GetUserBalanceController {
@@ -15,21 +16,33 @@ export class GetUserBalanceController {
     async execute(httpRequest) {
         try {
             const userId = httpRequest.params.userId
-            console.log(httpRequest.params)
+            const from = httpRequest.query.from
+            const to = httpRequest.query.to
 
-            //verificar se o id é valido
-            const idIsValid = checkIfIdIsValid(userId)
-            if (!idIsValid) {
-                return invalidIdResponse()
-            }
+            //validacao pelo zod de tudo que esta chegando da rota
+            await getBalanceSchema.parseAsync({
+                user_id: userId,
+                from,
+                to,
+            })
 
-            const balance = await this.getUserBalanceUseCase.execute(userId)
+            const balance = await this.getUserBalanceUseCase.execute(
+                userId,
+                from,
+                to,
+            )
 
             return ok(balance)
         } catch (error) {
             console.error(error)
             if (error instanceof UserNotFoundError) {
                 return userNotFoundResponse()
+            }
+
+            if (error instanceof ZodError) {
+                return badRequest({
+                    message: error.issues[0].message,
+                })
             }
             return serverError()
         }
