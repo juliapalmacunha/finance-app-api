@@ -6,7 +6,7 @@ export class GetUserBalanceUseCase {
         this.getUserByIdRepository = getUserByIdRepository
     }
 
-    async execute(userId) {
+    async execute(userId, from, to) {
         //verificar se o user existe
         const user = await this.getUserByIdRepository.execute(userId)
 
@@ -14,7 +14,11 @@ export class GetUserBalanceUseCase {
             throw new UserNotFoundError(userId)
         }
 
-        const balance = await this.getUserBalanceRepository.execute(userId)
+        const balance = await this.getUserBalanceRepository.execute(
+            userId,
+            from,
+            to,
+        )
         return balance
     }
 }
