@@ -53,7 +53,9 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/api/users/me": {
             "get": {
                 "summary": "Get authenticated user ",
                 "tags": ["User"],
@@ -142,7 +144,8 @@
                 ]
             }
         },
-        "/api/users/login":{
+
+        "/api/users/auth/login": {
             "post": {
                 "summary": "Login user created",
                 "tags": ["User"],
@@ -177,9 +180,8 @@
                     }
                 }
             }
-            
         },
-        "/api/users/refresh-token":{
+        "/api/users/auth/refresh-token": {
             "post": {
                 "summary": "Refresh user token",
                 "tags": ["User"],
@@ -193,7 +195,7 @@
                         }
                     }
                 ],
-               
+
                 "responses": {
                     "201": {
                         "description": "Tokens generated successfully",
@@ -215,14 +217,13 @@
                     }
                 }
             }
-            
         },
 
-        "/api/users/balance": {
+        "/api/users/me/balance": {
             "get": {
                 "summary": "Get authenticator user balance",
                 "tags": ["User"],
-                 "parameters":[
+                "parameters": [
                     {
                         "name": "from",
                         "in": "query",
@@ -234,7 +235,7 @@
                             "example": "2026-01-01"
                         }
                     },
-                     {
+                    {
                         "name": "to",
                         "in": "query",
                         "required": true,
@@ -273,11 +274,11 @@
                 ]
             }
         },
-        "/api/transactions": {
+        "/api/transactions/me": {
             "get": {
                 "summary": "Get authenticator user transactions",
                 "tags": ["Transaction"],
-                "parameters":[
+                "parameters": [
                     {
                         "name": "from",
                         "in": "query",
@@ -289,7 +290,7 @@
                             "example": "2026-01-01"
                         }
                     },
-                     {
+                    {
                         "name": "to",
                         "in": "query",
                         "required": true,
@@ -366,9 +367,9 @@
                 ]
             }
         },
-        "/api/transactions/{transactionId}": {
+        "/api/transactions/me/{transactionId}": {
             "patch": {
-                "summary": "Update a transaction by ID",
+                "summary": "Update a transaction by ID of authenticator user",
                 "tags": ["Transaction"],
                 "parameters": [
                     {
@@ -420,7 +421,7 @@
                 ]
             },
             "delete": {
-                "summary": "Delete a transaction by ID",
+                "summary": "Delete a transaction by ID of authenticator user",
                 "tags": ["Transaction"],
                 "parameters": [
                     {
@@ -504,7 +505,7 @@
                 }
             ]
         },
-         "Tokens": {
+        "Tokens": {
             "type": "object",
             "properties": {
                 "accessToken": {
@@ -517,7 +518,7 @@
                 }
             }
         },
-        
+
         "CreateUserParams": {
             "type": "object",
             "properties": {
@@ -558,15 +559,14 @@
                 }
             }
         },
-         "RefreshTokensParams": {
+        "RefreshTokensParams": {
             "type": "object",
             "properties": {
                 "refreshToken": {
                     "type": "string",
-                    
+
                     "required": true
                 }
-                
             }
         },
         "UserNotFoundErrorResponse": {
@@ -596,6 +596,18 @@
                 "balance": {
                     "type": "string",
                     "example": 4000
+                },
+                "earningsPercent": {
+                    "type": "string",
+                    "example": 50
+                },
+                "expensesPercent": {
+                    "type": "string",
+                    "example": 25
+                },
+                "investmentsPercent": {
+                    "type": "string",
+                    "example": 25
                 }
             }
         },
