@@ -145,6 +145,9 @@ describe('UserE2eTests', () => {
             expenses: '2000',
             investments: '2000',
             balance: '6000',
+            earningsPercent: '71',
+            expensesPercent: '14',
+            investmentsPercent: '14',
         })
     })
 
