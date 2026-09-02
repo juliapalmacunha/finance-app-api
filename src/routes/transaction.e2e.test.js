@@ -4,7 +4,7 @@ import { transaction, user } from '../tests/index.js'
 import { TransactionType } from '@prisma/client'
 
 describe('UserE2eTests', () => {
-    it('POST api/transactions should return 201 when a transaction is created', async () => {
+    it('POST api/transactions/me should return 201 when a transaction is created', async () => {
         //criar usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -15,7 +15,7 @@ describe('UserE2eTests', () => {
 
         //criar transação
         const response = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
@@ -45,7 +45,7 @@ describe('UserE2eTests', () => {
 
         //criar transação
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
@@ -56,7 +56,7 @@ describe('UserE2eTests', () => {
 
         //chamar requisição
         const response = await request(app)
-            .get(`/api/transactions?from=${from}&to=${to}`)
+            .get(`/api/transactions/me?from=${from}&to=${to}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
@@ -75,7 +75,7 @@ describe('UserE2eTests', () => {
 
         //criar transação
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions/`)
+            .post(`/api/transactions/me/`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
@@ -85,7 +85,7 @@ describe('UserE2eTests', () => {
 
         //chamar requisição para atualizar
         const response = await request(app)
-            .patch(`/api/transactions/${createdTransaction.id}`)
+            .patch(`/api/transactions/me/${createdTransaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 type: TransactionType.EXPENSE,
@@ -110,7 +110,7 @@ describe('UserE2eTests', () => {
 
         //criar transação
         const { body: createdTransaction } = await request(app)
-            .post(`/api/transactions`)
+            .post(`/api/transactions/me`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 ...transaction,
@@ -119,7 +119,7 @@ describe('UserE2eTests', () => {
             })
 
         const response = await request(app)
-            .delete(`/api/transactions/${createdTransaction.id}`)
+            .delete(`/api/transactions/me/${createdTransaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
@@ -127,7 +127,7 @@ describe('UserE2eTests', () => {
         expect(response.body.id).toBe(createdTransaction.id)
     })
 
-    it('PATCH api/transactions/:id should return 404 when transaction does not exist', async () => {
+    it('PATCH api/transactions/me should return 404 when transaction does not exist', async () => {
         //criar usuario
         const { body: createdUser } = await request(app)
             .post('/api/users')
@@ -138,7 +138,7 @@ describe('UserE2eTests', () => {
 
         //chamar requisição para atualizar
         const response = await request(app)
-            .patch(`/api/transactions/${transaction.id}`)
+            .patch(`/api/transactions/me/${transaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
             .send({
                 type: TransactionType.EXPENSE,
@@ -159,7 +159,7 @@ describe('UserE2eTests', () => {
             })
         //chamar requisição para atualizar
         const response = await request(app)
-            .delete(`/api/transactions/${transaction.id}`)
+            .delete(`/api/transactions/me/${transaction.id}`)
             .set('Authorization', `Bearer ${createdUser.tokens.accessToken}`)
 
         //assert
