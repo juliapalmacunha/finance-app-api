@@ -194,14 +194,16 @@ describe('UserE2eTests', () => {
         expect(response.body.tokens.refreshToken).toBeDefined()
     })
 
-    it('POST api/users/auth/login should return 404 when user is not found', async () => {
+    it('POST api/users/auth/login should return 401 when user is not found', async () => {
         const response = await request(app).post('/api/users/auth/login').send({
             email: 'invalid@example.com',
             password: faker.internet.password(),
         })
 
         // Assert
-        expect(response.status).toBe(404)
+        // Mesma resposta da senha inválida: não revela se o e-mail existe
+        expect(response.status).toBe(401)
+        expect(response.body).toEqual({ message: 'Unauthorized' })
     })
 
     it('POST api/users/auth/login should return 401 when password is invalid', async () => {
@@ -219,6 +221,7 @@ describe('UserE2eTests', () => {
 
         // Assert
         expect(response.status).toBe(401)
+        expect(response.body).toEqual({ message: 'Unauthorized' })
     })
 
     it('POST api/auth/refresh-token should return 200  and new token when refresh token is valid ', async () => {

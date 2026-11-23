@@ -83,8 +83,10 @@ describe('loginUserController', () => {
 
         //assert
         expect(result.statusCode).toBe(401)
+        expect(result.body).toEqual({ message: 'Unauthorized' })
     })
-    it('should return 404 when UserNotFoundError is thrown', async () => {
+
+    it('should return 401 when UserNotFoundError is thrown', async () => {
         //arrange
         const { sut, loginUserUseCase } = makeSut()
         import.meta.jest
@@ -104,7 +106,9 @@ describe('loginUserController', () => {
         const result = await sut.execute(httpRequest)
 
         //assert
-        expect(result.statusCode).toBe(404)
+        // Mesma resposta do erro de senha: não revela se o e-mail existe
+        expect(result.statusCode).toBe(401)
+        expect(result.body).toEqual({ message: 'Unauthorized' })
     })
 
     it('should return 500 if LoginUserController throws an error', async () => {
